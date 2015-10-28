@@ -1,0 +1,22 @@
+<Entities>
+  <GameEntity Type="1" TypeStr="RECT" ID="0">
+    <OutlineColor TypeStr="System.Drawing.Color">0 0 0 255</OutlineColor>
+    <FillColor TypeStr="System.Drawing.Color">255 255 255 0</FillColor>
+    <Dimensions TypeStr="System.Drawing.Rectangle">{X=150,Y=102,Width=100,Height=100}</Dimensions>
+  </GameEntity>
+  <GameEntity Type="1" TypeStr="RECT" ID="1">
+    <OutlineColor TypeStr="System.Drawing.Color">0 0 0 255</OutlineColor>
+    <FillColor TypeStr="System.Drawing.Color">255 255 255 0</FillColor>
+    <Dimensions TypeStr="System.Drawing.Rectangle">{X=404,Y=500,Width=100,Height=100}</Dimensions>
+  </GameEntity>
+  <GameEntity Type="1" TypeStr="RECT" ID="2">
+    <OutlineColor TypeStr="System.Drawing.Color">0 0 0 255</OutlineColor>
+    <FillColor TypeStr="System.Drawing.Color">255 165 0 255</FillColor>
+    <Dimensions TypeStr="System.Drawing.Rectangle">{X=618,Y=100,Width=100,Height=100}</Dimensions>
+  </GameEntity>
+  <GameEntity Type="1" TypeStr="RECT" ID="3">
+    <OutlineColor TypeStr="System.Drawing.Color">0 0 0 255</OutlineColor>
+    <FillColor TypeStr="System.Drawing.Color">128 0 0 255</FillColor>
+    <Dimensions TypeStr="System.Drawing.Rectangle">{X=369,Y=324,Width=100,Height=100}</Dimensions>
+  </GameEntity>
+</Entities>

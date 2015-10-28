@@ -24,3 +24,10 @@
 *.exe
 *.out
 *.app
+
+#other
+
+*.sdf
+ShootingGallery/ShootGall/ShootGall/Debug
+ShootingGallery/ShootGall/Editor/obj
+ShootingGallery/ShootGall/Editor/bin
