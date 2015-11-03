@@ -87,10 +87,21 @@ namespace Editor
         //Global boolean to check the state of the left mouse button.
         bool LMBDown = false;
         bool Dragging = false;
-       
+
+        /* Resizing state, used when the user has a corner handle selected.
+         * The number indicates which corner is selected.
+         * -1: None, 0: Top Left, 1: Top Right, 2: Bottom Right, 3: Bottom Left */
+        int Resizing = -1;
+
+        /* A copy of the bounding box before resizing (allows visual updating). */
+        Rectangle BeforeResize = new Rectangle();
+
         Point MouseDragOffset = new Point();
         Cursor PreviousCursor = Cursors.Default;
         Point MouseDownPos = new Point();
+
+        /* The position of the mouse during the last mouse drag frame. */
+        Point MousePrevPos = new Point();
 
         private void TabPanel_MouseDown(object sender, MouseEventArgs me)
         {
@@ -123,6 +134,18 @@ namespace Editor
                                 {
                                     //MIDTERM:
                                     //We are on a corner handle and can start to resize it.
+                                    Resizing = i;
+                                    BeforeResize = ge.GetBoundingBox();
+
+                                    /* Change the cursor based on selected corner. */
+                                    if (i % 2 == 0)
+                                    {
+                                        tabControl1.Cursor = Cursors.SizeNWSE;
+                                    }
+                                    else
+                                    {
+                                        tabControl1.Cursor = Cursors.SizeNESW;
+                                    }
                                 }
                             }
                         }
@@ -142,6 +165,13 @@ namespace Editor
                     Dragging = false;
                     tabControl1.Cursor = PreviousCursor;
                 }
+                else if (Resizing >= 0)
+                {
+                    /* End of resize. */
+                    Resizing = -1;
+                    BeforeResize = new Rectangle();
+                    tabControl1.Cursor = PreviousCursor;
+                }
             }
         }
 
@@ -149,15 +179,96 @@ namespace Editor
         {
             //MIDTERM: This needs to be modified to distinguish between moving an object and 
             // resizing it using the corners.
+
+            /* Detect any change in mouse movement. */
+            int change = (MousePrevPos.X - me.Location.X) + (MousePrevPos.Y - me.Location.Y);
+
             if (LMBDown && Dragging)
             {
                 GameEntity ge = selectedObject_pg.SelectedObject as GameEntity;
                 Rectangle r = ge.GetBoundingBox();
                 r.Location = new Point(me.Location.X - MouseDragOffset.X, me.Location.Y - MouseDragOffset.Y);
                 ge.SetBoundingBox(r);
-                RefreshAll();
+
+                if (change != 0)
+                {
+                    RefreshAll();
+                }
             }
-        }
+            else if (LMBDown && Resizing >= 0)
+            {
+                GameEntity ge = selectedObject_pg.SelectedObject as GameEntity;
+                Rectangle r = ge.GetBoundingBox();
+
+                Point offset = new Point(me.Location.X - BeforeResize.Location.X, me.Location.Y - BeforeResize.Location.Y);
+
+                /* Resizing changes based on entity type. */
+                if (ge.Type == EntityType.RECT)
+                {
+                    /* Rectangles are easy. Just find the corner. 
+                     * This should also work with any other object whose width and height are independent. */
+                    if (Resizing == 0)
+                    {
+                        r = new Rectangle(me.Location.X, me.Location.Y, BeforeResize.Size.Width - offset.X, BeforeResize.Size.Height - offset.Y);
+                    }
+                    else if (Resizing == 1)
+                    {
+                        r = new Rectangle(BeforeResize.Location.X, me.Location.Y, offset.X, BeforeResize.Size.Height - offset.Y);
+                    }
+                    else if (Resizing == 2)
+                    {
+                        r = new Rectangle(BeforeResize.Location.X, BeforeResize.Location.Y, offset.X, offset.Y);
+                    }
+                    else if (Resizing == 3)
+                    {
+                        r = new Rectangle(me.Location.X, BeforeResize.Location.Y, BeforeResize.Size.Width - offset.X, offset.Y);
+                    }
+                }
+                else if (ge.Type == EntityType.CIRCLE)
+                {
+                    /* Circles only have radius, so resizing must be uniform with regards to width and height. */
+                    if (Resizing == 0)
+                    {
+                        r = new Rectangle(me.Location.X, BeforeResize.Location.Y + offset.X, BeforeResize.Size.Width - offset.X, BeforeResize.Size.Width - offset.X);
+                    }
+                    else if (Resizing == 1)
+                    {
+                        r = new Rectangle(BeforeResize.Location.X, me.Location.Y, BeforeResize.Size.Height - offset.Y, BeforeResize.Size.Height - offset.Y);
+                    }
+                    else if (Resizing == 2)
+                    {
+                        r = new Rectangle(BeforeResize.Location.X, BeforeResize.Location.Y, offset.Y, offset.Y);
+                    }
+                    else if (Resizing == 3)
+                    {
+                        r = new Rectangle(me.Location.X, BeforeResize.Location.Y, BeforeResize.Size.Width - offset.X, BeforeResize.Size.Width - offset.X);
+                    }
+                }
+
+                /* Fix the shape. Prevents a shape from having negative width or height. */
+                int adjustWidth = 0;
+                if (r.Size.Width < 0)
+                {
+                    adjustWidth = r.Size.Width;
+                }
+
+                int adjustHeight = 0;
+                if (r.Size.Height < 0)
+                {
+                    adjustHeight = r.Size.Height;
+                }
+
+                r = new Rectangle(r.Location.X + adjustWidth, r.Location.Y + adjustHeight, Math.Abs(r.Size.Width), Math.Abs(r.Size.Height));
+                ge.SetBoundingBox(r);
+
+                /* Refresh the shape. Doing this too often seems to cause flicker. */
+                if (change != 0)
+                {
+                    RefreshAll();
+                }
+            }
+            MousePrevPos = me.Location;
+    }
 
         private void TabPanel_MouseClick(object sender, MouseEventArgs me)
         {
@@ -214,7 +325,11 @@ namespace Editor
             if (toolsRect_rb.Checked && me.Button == MouseButtons.Left)
             {
                 ge = GameEntity.CreateRectangle(me.X, me.Y, 100, 100);
-                
+            }
+            else if (toolsCircle_rb.Checked && me.Button == MouseButtons.Left)
+            {
+                /* Makes the Circle button work. */
+                ge = GameEntity.CreateCircle(100, me.Location);
             }
 
             if (ge != null)
@@ -234,25 +349,44 @@ namespace Editor
                 GameEntity ge = gameEntities_lb.Items[i] as GameEntity;
                 switch (ge.Type)
                 {
-                    case EntityType.RECT: {
-                        Rectangle bb = ge.GetBoundingBox();
-                        Color c = (Color)ge.Props["FillColor"];
-                        using (SolidBrush sb = new SolidBrush((Color)ge.Props["FillColor"]))
+                    case EntityType.RECT:
                         {
-                            g.FillRectangle(sb, bb);
+                            Rectangle bb = ge.GetBoundingBox();
+                            Color c = (Color)ge.Props["FillColor"];
+                            using (SolidBrush sb = new SolidBrush((Color)ge.Props["FillColor"]))
+                            {
+                                g.FillRectangle(sb, bb);
+                            }
+                            using (Pen p = new Pen((Color)ge.Props["OutlineColor"]))
+                            {
+                                g.DrawRectangle(p, bb);
+                            }
+                            break;
                         }
-                        using (Pen p = new Pen((Color)ge.Props["OutlineColor"]))
+                    case EntityType.CIRCLE:
                         {
-                            g.DrawRectangle(p, bb);
+                            /* Actually makes the circle. */
+                            Rectangle bb = ge.GetBoundingBox();
+                            Color c = (Color)ge.Props["FillColor"];
+                            using (SolidBrush sb = new SolidBrush((Color)ge.Props["FillColor"]))
+                            {
+                                g.FillEllipse(sb, bb);
+                            }
+                            using (Pen p = new Pen((Color)ge.Props["OutlineColor"]))
+                            {
+                                g.DrawEllipse(p, bb);
+                            }
+                            break;
                         }
-                        break; }
-                    default: {
-                        Rectangle bb = ge.GetBoundingBox();
-                        using (Pen p = new Pen(Color.Black))
+                    default:
                         {
-                            g.DrawRectangle(p, bb);
+                            Rectangle bb = ge.GetBoundingBox();
+                            using (Pen p = new Pen(Color.Black))
+                            {
+                                g.DrawRectangle(p, bb);
+                            }
+                            break;
                         }
-                    break; }
                 }
                 if (gameEntities_lb.SelectedItem == ge)
                 {

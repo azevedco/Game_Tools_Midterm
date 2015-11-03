@@ -118,8 +118,40 @@ namespace Editor
         {
             GameEntity ge = new GameEntity();
             ge.Type = EntityType.CIRCLE;
+
             //MIDTERM: Initialise the rest of the entity, including the properties (see CreateRectangle() for reference).
             // Don't forget you also need to initialise the BoundingBox delegates.
+            ge.Props.TryAdd(new CustomProperty { Name = "OutlineColor", Type = typeof(Color), DefaultValue = Color.Black });
+            ge.Props.TryAdd(new CustomProperty { Name = "FillColor", Type = typeof(Color), DefaultValue = Color.Transparent });
+
+            /* Creating these as named variables so that they can be referred to later. */
+            CustomProperty rad = new CustomProperty { Name = "Radius", Type = typeof(int), DefaultValue = radius };
+            ge.Props.TryAdd(rad);
+            CustomProperty pos = new CustomProperty { Name = "Position", Type = typeof(Point), DefaultValue = new Point(position.X, position.Y) };
+            ge.Props.TryAdd(pos);
+
+            ge.SetBoundingBox = new delSetBoundingBox(delegate (Rectangle r)
+            {
+                ge.Props["Position"] = r.Location;
+
+                /* Only height or width can be used, averaging them makes resizing difficult */
+                ge.Props["Radius"] = r.Size.Width;
+            });
+
+            ge.GetBoundingBox = new delGetBoundingBox(delegate ()
+            {
+                /* Generate a bounding box based on the radius. */
+                Rectangle bound;
+                if (ge.Props["Position"] == null || ge.Props["Radius"] == null)
+                {
+                    bound = new Rectangle((Point)pos.DefaultValue, new Size((int)rad.DefaultValue, (int)rad.DefaultValue));
+                }
+                else
+                {
+                    bound = new Rectangle((Point)ge.Props["Position"], new Size((int)ge.Props["Radius"], (int)ge.Props["Radius"]));
+                }
+                return bound;
+            });
 
             return ge;
         }
