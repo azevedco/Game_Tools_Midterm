@@ -180,12 +180,14 @@ namespace Editor
             //MIDTERM: This needs to be modified to distinguish between moving an object and 
             // resizing it using the corners.
 
+            /* Get the selected game object, used by almost everything below. */
+            GameEntity ge = selectedObject_pg.SelectedObject as GameEntity;
+
             /* Detect any change in mouse movement. */
             int change = (MousePrevPos.X - me.Location.X) + (MousePrevPos.Y - me.Location.Y);
 
             if (LMBDown && Dragging)
             {
-                GameEntity ge = selectedObject_pg.SelectedObject as GameEntity;
                 Rectangle r = ge.GetBoundingBox();
                 r.Location = new Point(me.Location.X - MouseDragOffset.X, me.Location.Y - MouseDragOffset.Y);
                 ge.SetBoundingBox(r);
@@ -197,7 +199,6 @@ namespace Editor
             }
             else if (LMBDown && Resizing >= 0)
             {
-                GameEntity ge = selectedObject_pg.SelectedObject as GameEntity;
                 Rectangle r = ge.GetBoundingBox();
 
                 Point offset = new Point(me.Location.X - BeforeResize.Location.X, me.Location.Y - BeforeResize.Location.Y);
@@ -267,8 +268,38 @@ namespace Editor
                     RefreshAll();
                 }
             }
+            else
+            {
+                /* No action. Set cursor state. */
+                if (ge != null)
+                {
+                    tabControl1.Cursor = Cursors.Arrow;
+
+                    if (ge.GetBoundingBox().Contains(me.Location))
+                    {
+                        tabControl1.Cursor = Cursors.SizeAll;
+                    }
+
+                    for (int i = 0; i < 4; i++)
+                    {
+                        if (ge.CornerHandles[i].Contains(me.Location))
+                        {
+                            if (i % 2 == 0)
+                            {
+                                tabControl1.Cursor = Cursors.SizeNWSE;
+                            }
+                            else
+                            {
+                                tabControl1.Cursor = Cursors.SizeNESW;
+                            }
+                        }
+                    }
+                }
+            }
+
+            /* Save last position of mouse. Helps prevent idle flicker. */
             MousePrevPos = me.Location;
-    }
+        }
 
         private void TabPanel_MouseClick(object sender, MouseEventArgs me)
         {
@@ -578,7 +609,7 @@ namespace Editor
             }
 
             doc.AppendChild(root);
-            doc.Save("Output.xml");
+            doc.Save("../../Debug/Output.xml");
         }
 
         //Clone Game Entity

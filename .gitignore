@@ -25,9 +25,11 @@
 *.out
 *.app
 
-#other
-
+# Others
+*.suo
+*.opensdf
 *.sdf
 ShootingGallery/ShootGall/ShootGall/Debug
 ShootingGallery/ShootGall/Editor/obj
 ShootingGallery/ShootGall/Editor/bin
+ShootingGallery/ShootGall/.vs
