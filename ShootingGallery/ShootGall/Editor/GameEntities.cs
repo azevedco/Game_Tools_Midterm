@@ -156,6 +156,78 @@ namespace Editor
             return ge;
         }
 
+        // Take in a GameEntity, create new GameEntity, set new entity with new values equal to original GameEntity
+        public static GameEntity CloneEntity(GameEntity ge)
+        {
+            GameEntity newGE = new GameEntity();
+
+            int clonePosOffset = 6;
+
+            newGE.Type = ge.Type;
+
+            newGE.Props.TryAdd(new CustomProperty { Name = "OutlineColor", Type = typeof(Color), DefaultValue = (Color)ge.Props["OutlineColor"] });
+            newGE.Props.TryAdd(new CustomProperty { Name = "FillColor", Type = typeof(Color), DefaultValue = (Color)ge.Props["FillColor"] });
+
+            switch(newGE.Type)
+            {
+                case EntityType.CIRCLE:
+                    CustomProperty rad = new CustomProperty { Name = "Radius", Type = typeof(int), DefaultValue = (int)ge.Props["Radius"] };
+                    newGE.Props.TryAdd(rad);
+                    Point gePos = (Point)ge.Props["Position"];
+                    gePos.X += clonePosOffset;
+                    gePos.Y += clonePosOffset;
+                    CustomProperty pos = new CustomProperty { Name = "Position", Type = typeof(Point), DefaultValue = gePos };
+                    newGE.Props.TryAdd(pos);
+
+                    newGE.SetBoundingBox = new delSetBoundingBox(delegate(Rectangle r)
+                    {
+                        newGE.Props["Position"] = r.Location;
+
+                        /* Only height or width can be used, averaging them makes resizing difficult */
+                        newGE.Props["Radius"] = r.Size.Width;
+                    });
+
+                    newGE.GetBoundingBox = new delGetBoundingBox(delegate()
+                    {
+                        /* Generate a bounding box based on the radius. */
+                        Rectangle bound;
+                        if (newGE.Props["Position"] == null || newGE.Props["Radius"] == null)
+                        {
+                            bound = new Rectangle((Point)pos.DefaultValue, new Size((int)rad.DefaultValue, (int)rad.DefaultValue));
+                        }
+                        else
+                        {
+                            bound = new Rectangle((Point)newGE.Props["Position"], new Size((int)newGE.Props["Radius"], (int)newGE.Props["Radius"]));
+                        }
+                        return bound;
+                    });
+
+                    break;
+                case EntityType.RECT:
+                    Rectangle geRect = (Rectangle)ge.Props["Dimensions"];
+                    geRect.X += clonePosOffset;
+                    geRect.Y += clonePosOffset;
+                    CustomProperty dim = new CustomProperty { Name = "Dimensions", Type = typeof(Rectangle), DefaultValue = geRect };
+                    newGE.Props.TryAdd(dim);
+
+                    newGE.SetBoundingBox = new delSetBoundingBox(delegate(Rectangle r)
+                    {
+                        newGE.Props["Dimensions"] = r;
+                    });
+
+                    newGE.GetBoundingBox = new delGetBoundingBox(delegate()
+                    {
+                        return newGE.Props["Dimensions"] == null ? (Rectangle)dim.DefaultValue : (Rectangle)newGE.Props["Dimensions"];
+                    });
+
+                    break;
+                default:
+                    return null;
+            }
+
+            return newGE;
+        }
+
         //Output this game entity as an XMLElement. The Entity is the element and will contain
         // each property as a sub-element. In addition, the entity will contain attributes for the
         // Type (as an int), Type (as a string), and ID.

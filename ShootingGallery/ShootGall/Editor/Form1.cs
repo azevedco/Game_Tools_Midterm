@@ -576,8 +576,75 @@ namespace Editor
                 XmlElement el = ge.GenerateXML(doc);
                 root.AppendChild(el);
             }
+
             doc.AppendChild(root);
             doc.Save("Output.xml");
+        }
+
+        //Clone Game Entity
+        private void clone_btn_Click(object sender, EventArgs e)
+        {
+            GameEntity newEntity = GameEntity.CloneEntity(selectedObject_pg.SelectedObject as GameEntity);
+
+            if (newEntity != null)
+            {
+                gameEntities_lb.Items.Add(newEntity);
+                gameEntities_lb.SelectedIndex = gameEntities_lb.Items.Count - 1;
+                selectedObject_pg.SelectedObject = newEntity;
+                RefreshAll();
+            }
+        }
+
+        private void forward_btn_Click(object sender, EventArgs e)
+        {
+            if(gameEntities_lb.SelectedIndex != gameEntities_lb.Items.Count-1)
+            {
+                GameEntity tempGE = selectedObject_pg.SelectedObject as GameEntity;
+                int index = gameEntities_lb.SelectedIndex;
+
+                gameEntities_lb.Items.Insert(index + 2, tempGE);
+                gameEntities_lb.Items.RemoveAt(index);
+
+                gameEntities_lb.SelectedIndex = index + 1;
+                RefreshAll();
+            }
+        }
+
+        private void back_btn_Click(object sender, EventArgs e)
+        {
+            if (gameEntities_lb.SelectedIndex != 0)
+            {
+                GameEntity tempGE = selectedObject_pg.SelectedObject as GameEntity;
+                int index = gameEntities_lb.SelectedIndex;
+
+                
+                gameEntities_lb.Items.RemoveAt(index);
+                gameEntities_lb.Items.Insert(index - 1, tempGE);
+
+                gameEntities_lb.SelectedIndex = index - 1;
+                RefreshAll();
+            }
+        }
+
+        private void delete_btn_Click(object sender, EventArgs e)
+        {
+            if (selectedObject_pg.SelectedObject != null)
+            {
+                int index = gameEntities_lb.SelectedIndex;
+
+                gameEntities_lb.Items.RemoveAt(gameEntities_lb.SelectedIndex);
+
+                if (gameEntities_lb.Items.Count-1 >= index)
+                {
+                    gameEntities_lb.SelectedIndex = index;
+                }
+                else
+                {
+                    gameEntities_lb.SelectedIndex = gameEntities_lb.Items.Count-1;
+                }
+
+                RefreshAll();
+            }
         }
 
         
