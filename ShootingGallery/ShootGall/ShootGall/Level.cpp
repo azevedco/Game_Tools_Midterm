@@ -50,3 +50,10 @@ void Level::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 		target.draw(*m_entities[i]);
 	}
 }
+
+
+void Level::update(float delta) {
+	for (std::size_t i = 0; i < m_entities.size(); i++) {
+		m_entities[i]->update(delta);
+	}
+}

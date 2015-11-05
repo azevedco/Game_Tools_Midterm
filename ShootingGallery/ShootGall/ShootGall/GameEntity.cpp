@@ -11,6 +11,7 @@
 #include "../Editor/EntityTypes.cs"
 
 #include "StaticEntity.h"
+#include "TrackEntity.h"
 
 //Factory method for creating a static rectangle. It gets drawn to a position and has a 
 // size, an outline color, and a fill color. Static entities aren't expected to move.
@@ -85,14 +86,15 @@ GameEntity *StaticEntity::CreateCircularEntity(Editor::EntityType type, int ID,
 		else {
 			//If the property is found, convert it to the appropriate type and initialise the object with
 			// the value.
+
 			if (propName == "Position") {
 				/* This is not good. Need to find an easy way of reading a Vector2D. */
 				sf::IntRect dim = StringUtils::FromString<sf::IntRect>(it->second);
 				ge->m_drawShape->setPosition(sf::Vector2f((float)dim.left, (float)dim.top));
 			}
 			else if (propName == "Radius") {
-				float dim = StringUtils::FromString<float>(it->second);
-				((sf::CircleShape *)(ge->m_drawShape))->setRadius(dim);
+				float rad = StringUtils::FromString<float>(it->second);
+				((sf::CircleShape *)(ge->m_drawShape))->setRadius(rad);
 			}
 			else if (propName == "FillColor") {
 				ge->m_drawShape->setFillColor(StringUtils::FromString<sf::Color>(it->second));
@@ -109,6 +111,88 @@ GameEntity *StaticEntity::CreateCircularEntity(Editor::EntityType type, int ID,
 //MIDTERM: You will need additional factory functions with the correct signature to handle 
 // any new gameentity types you create.
 
+GameEntity *StaticEntity::CreateSpriteEntity(Editor::EntityType type, int ID,
+	std::map<std::string, std::string> &props) {
+
+	StaticEntity *ge = new StaticEntity(ID);
+	ge->m_drawShape = new sf::RectangleShape();
+
+	bool propMissing = false;
+	for (std::size_t i = 0; i < Editor::EntityProperties[(int)type].size(); i++) {
+		std::string propName = Editor::EntityProperties[(int)type][i];
+		std::map<std::string, std::string>::iterator it = props.find(propName);
+		//Currently we fail as soon as we miss a single value - if we have optional parameters we will
+		// need to make this logic a bit more complex.
+		if (it == props.end()) {
+			propMissing = true;
+			delete ge;
+			return NULL;
+		}
+		else {
+			//If the property is found, convert it to the appropriate type and initialise the object with
+			// the value.
+			if (propName == "Dimensions") {
+				sf::IntRect dim = StringUtils::FromString<sf::IntRect>(it->second);
+				ge->m_drawShape->setPosition(sf::Vector2f((float)dim.left, (float)dim.top));
+				((sf::RectangleShape *)(ge->m_drawShape))->setSize(sf::Vector2f((float)dim.width, (float)dim.height));
+			}
+			else if (propName == "Image") {
+				sf::Texture* txt = new sf::Texture();
+				txt->loadFromFile(it->second);
+				ge->m_drawShape->setTexture(txt);
+			}
+		}
+	}
+	//Return the initialised game entity.
+	return ge;
+}
+
+
+GameEntity *TrackEntity::CreateWaveTrackEntity(Editor::EntityType type, int ID,
+	std::map < std::string, std::string > &props) {
+
+	TrackEntity *ge = new TrackEntity(ID);
+	ge->m_drawShape = new sf::RectangleShape();
+
+	bool propMissing = false;
+	for (std::size_t i = 0; i < Editor::EntityProperties[(int)type].size(); i++) {
+		std::string propName = Editor::EntityProperties[(int)type][i];
+		std::map<std::string, std::string>::iterator it = props.find(propName);
+		//Currently we fail as soon as we miss a single value - if we have optional parameters we will
+		// need to make this logic a bit more complex.
+		if (it == props.end()) {
+			propMissing = true;
+			delete ge;
+			return NULL;
+		}
+		else {
+			//If the property is found, convert it to the appropriate type and initialise the object with
+			// the value.
+			if (propName == "Dimensions") {
+				sf::IntRect dim = StringUtils::FromString<sf::IntRect>(it->second);
+				ge->m_drawShape->setPosition(sf::Vector2f((float)dim.left, (float)dim.top));
+				((sf::RectangleShape *)(ge->m_drawShape))->setSize(sf::Vector2f((float)dim.width, (float)dim.height));
+			}
+			else if (propName == "Oscillation") {
+				ge->oscillation = StringUtils::FromString<float>(it->second);
+			}
+			else if (propName == "Speed") {
+				ge->speed = StringUtils::FromString<float>(it->second);
+			}
+			else if (propName == "Image") {
+				sf::Sprite* spr = new sf::Sprite();
+				sf::Texture* txt = new sf::Texture();
+				txt->loadFromFile(it->second);
+				spr->setTexture(*txt);
+				spr->setPosition(sf::Vector2f(350.0f, 350.0f));
+				ge->images.push_back(spr);
+			}
+		}
+	}
+	//Return the initialised game entity.
+	return ge;
+}
+
 //Collection of factory methods mapped to entity types in EntityTypes.cs. Put the address of the methods
 // you want at the appropriate spot in the array. If you want to rewrite this to use the C++11 standard
 // feel free. Please bring any troubles with debugging to Will.
@@ -116,7 +200,9 @@ std::vector<GameEntity *(*)(Editor::EntityType type, int ID, std::map<std::strin
 factories = {
 	NULL,
 	&StaticEntity::CreateRectangularEntity,
-	&StaticEntity::CreateCircularEntity
+	&StaticEntity::CreateCircularEntity,
+	&StaticEntity::CreateSpriteEntity,
+	&TrackEntity::CreateWaveTrackEntity
 };
 
 

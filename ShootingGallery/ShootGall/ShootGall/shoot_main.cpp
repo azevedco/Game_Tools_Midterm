@@ -9,7 +9,7 @@ int main(int argc, char *argv[]) {
 
 	//Create a new level and load it from an xml.
 	Level *l = new Level();
-	l->loadFromFile("Output.xml");
+	l->loadFromFile("../Debug/Output.xml");
 
 	//Create the render window and gaming clock.
 	sf::RenderWindow window(sf::VideoMode(800, 600), "Shooting Gallery");
@@ -36,6 +36,7 @@ int main(int argc, char *argv[]) {
 		//Update loop for the game using a fixed timestep.
 		while ((currentTime = gameClock.getElapsedTime().asSeconds()) > gameTime) {
 			gameTime += delta;
+			l->update(delta);
 			drawRequested = true;
 		}
 
