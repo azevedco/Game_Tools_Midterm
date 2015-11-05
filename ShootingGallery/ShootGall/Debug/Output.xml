@@ -27,7 +27,7 @@
   <GameEntity Type="4" TypeStr="WAVE_TRACK" ID="5">
     <Dimensions TypeStr="System.Drawing.Rectangle">0 300 500 100</Dimensions>
 	<Oscillation TypeStr="float">12</Oscillation>
-	<Speed TypeStr="float">10</Speed>
+	<Speed TypeStr="float">50</Speed>
     <Image TypeStr="">..\..\Assets\Stall\water1.png</Image>
   </GameEntity>
 </Entities>

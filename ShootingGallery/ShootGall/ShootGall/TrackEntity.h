@@ -11,7 +11,7 @@
 /// original: Rion Meehan
 /// </author>
 class TrackEntity :
-	public GameEntity
+	public GameEntity 
 {
 public:
 	virtual ~TrackEntity();
