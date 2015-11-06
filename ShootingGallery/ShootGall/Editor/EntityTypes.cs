@@ -21,7 +21,10 @@ namespace Editor
         NONE = 0,
         RECT = 1,
         CIRCLE = 2,
-        OTHER = 3,
+        SPRITE = 3,
+        WAVE_TRACK = 4,
+        CONVERYOR_TRACK = 5,
+        FUNCTION_TRACK = 6,
         COUNT
     };
 #if CS
@@ -39,17 +42,40 @@ namespace Editor
 #if CS
         new String[]
 #endif
+            /* None */
             { "" },
 #if CS
         new String[]
 #endif
+            /* Rectangle */
             {"Dimensions", "OutlineColor", "FillColor" },
 #if CS
         new String[]
 #endif
-            {"Position", "Radius", "OutlineColor", "FillColor"}
+            /* Circle */
+            {"Position", "Radius", "OutlineColor", "FillColor"},
+#if CS
+        new String[]
+#endif
+            /* Sprite */
+            {"Dimensions", "Image"},
+#if CS
+        new String[]
+#endif
+            /* Track 1: Wave Track */
+            {"Dimensions", "Oscillation", "Speed", "Image", "Scale"},
+#if CS
+        new String[]
+#endif
+            /* Track 2: Conveyor Track */
+            {"Dimensions", "Speed", "Image", "Scale"},
+#if CS
+        new String[]
+#endif
+            /* Track 3: Function Track */
+            {"Dimensions", "Oscillation", "Speed", "Function", "Image", "Scale"}
         };
 #if CS
-    }
+}
 #endif
 }

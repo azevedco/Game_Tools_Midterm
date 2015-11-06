@@ -78,4 +78,18 @@ namespace StringUtils {
 
 		return c;
 	}
+
+	//Explicit specialisation of the FromString overly trusting 
+	// conversion routine for handling Vector2s.
+	template<>
+	sf::Vector2f FromString(std::string const &in) {
+		sf::Vector2f r;
+		std::vector<std::string> nums = split(in, ' ');
+		if (nums.size() != 2) {
+			return r;
+		}
+		r.x = FromString<float>(nums[0]);
+		r.y = FromString<float>(nums[1]);
+		return r;
+	}
 }

@@ -21,8 +21,13 @@ public:
 		std::map<std::string, std::string> &props);
 	//Create a Circle. Body is in GameEntity.h. If props does not contain the right data,
 	// this will return NULL. Needs to be fully implemented.
-	static GameEntity *CreateCircularEntity(Editor::EntityType type, int ID,
+	static GameEntity *CreateCircularEntity(Editor::EntityType type, int ID, 
 		std::map<std::string, std::string> &props);
+
+	/* Creates a Sprite. Body is in GameEntity.h. Returns NULL if props are incorrect or incomplete.*/
+	static GameEntity *CreateSpriteEntity(Editor::EntityType type, int ID,
+		std::map<std::string, std::string> &props);
+
 protected:
 	//Don't call me from anywhere but the factory methods!
 	StaticEntity(int id);
