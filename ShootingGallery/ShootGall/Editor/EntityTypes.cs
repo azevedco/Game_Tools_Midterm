@@ -63,17 +63,17 @@ namespace Editor
         new String[]
 #endif
             /* Track 1: Wave Track */
-            {"Dimensions", "Oscillation", "Speed", "Image"},
+            {"Dimensions", "Oscillation", "Speed", "Image", "Scale"},
 #if CS
         new String[]
 #endif
             /* Track 2: Conveyor Track */
-            {"Dimensions", "Speed", "Sprites"},
+            {"Dimensions", "Speed", "Image", "Scale"},
 #if CS
         new String[]
 #endif
             /* Track 3: Function Track */
-            {"Dimensions", "Oscillation", "Function", "Sprites"}
+            {"Dimensions", "Oscillation", "Speed", "Function", "Image", "Scale"}
         };
 #if CS
 }

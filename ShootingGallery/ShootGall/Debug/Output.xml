@@ -22,12 +22,22 @@
     <OutlineColor TypeStr="System.Drawing.Color">0 0 0 255</OutlineColor>
     <FillColor TypeStr="System.Drawing.Color">255 255 255 0</FillColor>
     <Radius TypeStr="System.Int32">50</Radius>
-    <Position TypeStr="System.Drawing.Point">250 143 0 0</Position>
+    <Position TypeStr="System.Drawing.Point">250 143</Position>
   </GameEntity>
   <GameEntity Type="4" TypeStr="WAVE_TRACK" ID="5">
     <Dimensions TypeStr="System.Drawing.Rectangle">0 300 500 100</Dimensions>
-	<Oscillation TypeStr="float">12</Oscillation>
-	<Speed TypeStr="float">50</Speed>
+	<Oscillation TypeStr="float">10</Oscillation>
+	<Speed TypeStr="float">2</Speed>
     <Image TypeStr="">..\..\Assets\Stall\water1.png</Image>
+	<Scale>0.2 0.2</Scale>
+  </GameEntity>
+  <GameEntity Type="6" TypeStr="FUNCTION_TRACK" ID="6">
+    <Dimensions TypeStr="System.Drawing.Rectangle">0 300 500 100</Dimensions>
+	<Oscillation TypeStr="float">10</Oscillation>
+	<Speed TypeStr="float">5</Speed>
+	<Function>COS</Function>
+	<Variable>X</Variable>
+    <Image TypeStr="">..\..\Assets\Stall\water1.png</Image>
+	<Scale>0.5 0.5</Scale>
   </GameEntity>
 </Entities>

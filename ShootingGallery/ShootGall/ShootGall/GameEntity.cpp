@@ -88,9 +88,8 @@ GameEntity *StaticEntity::CreateCircularEntity(Editor::EntityType type, int ID,
 			// the value.
 
 			if (propName == "Position") {
-				/* This is not good. Need to find an easy way of reading a Vector2D. */
-				sf::IntRect dim = StringUtils::FromString<sf::IntRect>(it->second);
-				ge->m_drawShape->setPosition(sf::Vector2f((float)dim.left, (float)dim.top));
+				sf::Vector2f dim = StringUtils::FromString<sf::Vector2f>(it->second);
+				ge->m_drawShape->setPosition(sf::Vector2f((float)dim.x, (float)dim.y));
 			}
 			else if (propName == "Radius") {
 				float rad = StringUtils::FromString<float>(it->second);
@@ -153,6 +152,7 @@ GameEntity *TrackEntity::CreateWaveTrackEntity(Editor::EntityType type, int ID,
 
 	TrackEntity *ge = new TrackEntity(ID);
 	ge->m_drawShape = new sf::RectangleShape();
+	ge->type = eTrackType::WAVE_TRACK;
 
 	bool propMissing = false;
 	for (std::size_t i = 0; i < Editor::EntityProperties[(int)type].size(); i++) {
@@ -187,6 +187,112 @@ GameEntity *TrackEntity::CreateWaveTrackEntity(Editor::EntityType type, int ID,
 				spr->setPosition(sf::Vector2f(350.0f, 350.0f));
 				ge->images.push_back(spr);
 			}
+			else if (propName == "Scale") {
+				sf::Vector2f dim = StringUtils::FromString<sf::Vector2f>(it->second);
+				ge->scale = sf::Vector2f((float)dim.x, (float)dim.y);
+			}
+		}
+	}
+	//Return the initialised game entity.
+	return ge;
+}
+
+
+GameEntity *TrackEntity::CreateConveyorTrackEntity(Editor::EntityType type, int ID,
+	std::map < std::string, std::string > &props) {
+
+	TrackEntity *ge = new TrackEntity(ID);
+	ge->m_drawShape = new sf::RectangleShape();
+	ge->type = eTrackType::CONVEYOR_TRACK;
+
+	bool propMissing = false;
+	for (std::size_t i = 0; i < Editor::EntityProperties[(int)type].size(); i++) {
+		std::string propName = Editor::EntityProperties[(int)type][i];
+		std::map<std::string, std::string>::iterator it = props.find(propName);
+		//Currently we fail as soon as we miss a single value - if we have optional parameters we will
+		// need to make this logic a bit more complex.
+		if (it == props.end()) {
+			propMissing = true;
+			delete ge;
+			return NULL;
+		}
+		else {
+			//If the property is found, convert it to the appropriate type and initialise the object with
+			// the value.
+			if (propName == "Dimensions") {
+				sf::IntRect dim = StringUtils::FromString<sf::IntRect>(it->second);
+				ge->m_drawShape->setPosition(sf::Vector2f((float)dim.left, (float)dim.top));
+				((sf::RectangleShape *)(ge->m_drawShape))->setSize(sf::Vector2f((float)dim.width, (float)dim.height));
+			}
+			else if (propName == "Oscillation") {
+				ge->oscillation = StringUtils::FromString<float>(it->second);
+			}
+			else if (propName == "Speed") {
+				ge->speed = StringUtils::FromString<float>(it->second);
+			}
+			else if (propName == "Image") {
+				sf::Sprite* spr = new sf::Sprite();
+				sf::Texture* txt = new sf::Texture();
+				txt->loadFromFile(it->second);
+				spr->setTexture(*txt);
+				spr->setPosition(sf::Vector2f(350.0f, 350.0f));
+				ge->images.push_back(spr);
+			}
+			else if (propName == "Scale") {
+				sf::Vector2f dim = StringUtils::FromString<sf::Vector2f>(it->second);
+				ge->scale = sf::Vector2f((float)dim.x, (float)dim.y);
+			}
+		}
+	}
+	//Return the initialised game entity.
+	return ge;
+}
+
+
+GameEntity *TrackEntity::CreateFunctionTrackEntity(Editor::EntityType type, int ID,
+	std::map < std::string, std::string > &props) {
+
+	TrackEntity *ge = new TrackEntity(ID);
+	ge->m_drawShape = new sf::RectangleShape();
+	ge->type = eTrackType::FUNCTION_TRACK;
+
+	bool propMissing = false;
+	for (std::size_t i = 0; i < Editor::EntityProperties[(int)type].size(); i++) {
+		std::string propName = Editor::EntityProperties[(int)type][i];
+		std::map<std::string, std::string>::iterator it = props.find(propName);
+		//Currently we fail as soon as we miss a single value - if we have optional parameters we will
+		// need to make this logic a bit more complex.
+		if (it == props.end()) {
+			propMissing = true;
+			delete ge;
+			return NULL;
+		}
+		else {
+			//If the property is found, convert it to the appropriate type and initialise the object with
+			// the value.
+			if (propName == "Dimensions") {
+				sf::IntRect dim = StringUtils::FromString<sf::IntRect>(it->second);
+				ge->m_drawShape->setPosition(sf::Vector2f((float)dim.left, (float)dim.top));
+				((sf::RectangleShape *)(ge->m_drawShape))->setSize(sf::Vector2f((float)dim.width, (float)dim.height));
+			}
+			else if (propName == "Oscillation") {
+				ge->oscillation = StringUtils::FromString<float>(it->second);
+			}
+			else if (propName == "Speed") {
+				ge->speed = StringUtils::FromString<float>(it->second);
+			}
+			else if (propName == "Image") {
+				sf::Sprite* spr = new sf::Sprite();
+				sf::Texture* txt = new sf::Texture();
+				txt->loadFromFile(it->second);
+				spr->setTexture(*txt);
+				spr->setPosition(sf::Vector2f(350.0f, 350.0f));
+				ge->images.push_back(spr);
+			}
+			else if (propName == "Scale") {
+				sf::Vector2f dim = StringUtils::FromString<sf::Vector2f>(it->second);
+				ge->scale = sf::Vector2f((float)dim.x, (float)dim.y);
+			}
 		}
 	}
 	//Return the initialised game entity.
@@ -202,7 +308,9 @@ factories = {
 	&StaticEntity::CreateRectangularEntity,
 	&StaticEntity::CreateCircularEntity,
 	&StaticEntity::CreateSpriteEntity,
-	&TrackEntity::CreateWaveTrackEntity
+	&TrackEntity::CreateWaveTrackEntity,
+	&TrackEntity::CreateConveyorTrackEntity,
+	&TrackEntity::CreateFunctionTrackEntity
 };
 
 

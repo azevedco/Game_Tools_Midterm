@@ -85,6 +85,7 @@
     <ClCompile Include="shoot_main.cpp" />
     <ClCompile Include="StaticEntity.cpp" />
     <ClCompile Include="tinyxml2.cpp" />
+    <ClCompile Include="TrackEntity.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEntity.h" />
@@ -92,6 +93,7 @@
     <ClInclude Include="StaticEntity.h" />
     <ClInclude Include="StringUtils.h" />
     <ClInclude Include="tinyxml2.h" />
+    <ClInclude Include="TrackEntity.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

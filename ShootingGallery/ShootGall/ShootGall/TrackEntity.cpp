@@ -3,7 +3,7 @@
 //Constructor that initialises things to null. You should only call this in 
 // a factory method. Note that draw() makes it very dangerous to use an 
 // an improperly loaded entity of this type since the draw shape is NULL.
-TrackEntity::TrackEntity(int id) : GameEntity(id), initialized(false), maxSprites(0), time(0), oscillation(0.0f), speed(0.0f)
+TrackEntity::TrackEntity(int id) : GameEntity(id), type(eTrackType::NONE), initialized(false), time(0), oscillation(0.0f), speed(0.0f), scale(0.0f, 0.0f)
 {
 }
 
@@ -30,14 +30,15 @@ void TrackEntity::draw(sf::RenderTarget &target, sf::RenderStates states) const 
 void TrackEntity::update(float delta) {
 	time += delta;
 	
-	/* figure out how many sprites to use */
+	/* Figure out how many sprites to use. */
 	if (!initialized) {
 		int totalWidth = 0;
 		for (int i = 0; i < images.size(); i++) {
-			images[i]->setScale(sf::Vector2f(0.5f, 0.5f));
+			images[i]->setScale(scale);
 			totalWidth += images[i]->getGlobalBounds().width;
 		}
 
+		int maxSprites = 0;
 		if (totalWidth > 0) {
 			maxSprites = (int)m_drawShape->getLocalBounds().width / (int)totalWidth;
 		}
@@ -51,64 +52,89 @@ void TrackEntity::update(float delta) {
 		initialized = true;
 	}
 
-	/* Wave Track */
-	/*for (int i = 0; i < sprites.size(); i++) {
-		sf::Sprite* spr = &sprites[i];
-		sf::Vector2f pos = spr->getPosition();
+	/* Determine track type. */
+	if (type == eTrackType::WAVE_TRACK) {
+		for (int i = 0; i < sprites.size(); i++) {
+			sf::Sprite* spr = &sprites[i];
+			sf::Vector2f pos = spr->getPosition();
 
-		float s = speed;
-		if (i % 2 == 1) {
-			s = -s;
+			float s = speed;
+			if (i % 2 == 1) {
+				s = -s;
+			}
+
+			pos.y = (sin(time * s) * oscillation) + m_drawShape->getPosition().y;
+			pos.x = i * sprites[i].getGlobalBounds().width;
+
+			sprites[i].setPosition(pos);
 		}
+	}
+	else if (type == eTrackType::CONVEYOR_TRACK) {
+		/* Conveyor Track */
+		/* Incomplete because it is difficult */
 
-		pos.y = (sin(time * s) * oscillation) + m_drawShape->getPosition().y;
-		pos.x = i * sprites[i].getGlobalBounds().width;
+		// semi-circle
+		// x = sqrt(1 - y^2)
+		
+		//for (int i = 0; i < maxSprites; i++) {
+		//	sf::Sprite* spr = &sprites[i];
+		//	sf::Vector2f pos = spr->getPosition();
 
-		sprites[i].setPosition(pos);
-	}*/
+		//	float height = m_drawShape->getGlobalBounds().height;
+		//	float width = m_drawShape->getGlobalBounds().width;
+		//	float px = m_drawShape->getPosition().x;
+		//	float py = m_drawShape->getPosition().y;
 
-	// semi-circle
-	// x = sqrt(1 - y^2)
+		//	float t = speed * delta;
 
-	/* Conveyor Track */
-	//for (int i = 0; i < maxSprites; i++) {
-	//	sf::Sprite* spr = &sprites[i];
-	//	sf::Vector2f pos = spr->getPosition();
+		//	/* adjust position */
+		//	if (pos.y <= py) {
+		//		//pos.x = (i * spr->getGlobalBounds().width) + (t * delta);
+		//		pos.x += t;
+		//	}
 
-	//	float height = m_drawShape->getGlobalBounds().height;
-	//	float width = m_drawShape->getGlobalBounds().width;
-	//	float px = m_drawShape->getPosition().x;
-	//	float py = m_drawShape->getPosition().y;
+		//	//if (pos.x >= (width * 0.875f) - px) {
+		//	//	float y = ((pos.y - py) / height);
+		//	//	pos.x = (sqrt(1 - pow(y, 2))) + (width * 0.875f - px);
+		//	//	//int x = (pos.x - px - (width * 0.875f)) / (width - (width * 0.875f));
+		//	//	//pos.y = (sqrt(-pow(x, 2) + 1) + m_drawShape->getPosition().y);
+		//	//	pos.y += 0.5f;
+		//	//	//spr->setRotation(270 * (y-1));
+		//	//}
 
-	//	float t = speed * delta;
+		//	if (pos.x >= (width * 0.875f) - px) {
+		//		float y = ((pos.y - py) / height);
+		//		pos.x = (sqrt(1 - pow(y, 2))) + (width * 0.875f - px);
+		//		pos.y += 0.5f;
+		//	}
 
-	//	/* adjust position */
-	//	if (pos.y <= py) {
-	//		//pos.x = (i * spr->getGlobalBounds().width) + (t * delta);
-	//		pos.x += t;
-	//	}
+		//	if (pos.y >= py + height) {
+		//		//pos.x = (i * spr->getGlobalBounds().width) + -(t * delta) + (width * 0.875f);
+		//		pos.x -= t;
+		//	}
 
-	//	//if (pos.x >= (width * 0.875f) - px) {
-	//	//	float y = ((pos.y - py) / height);
-	//	//	pos.x = (sqrt(1 - pow(y, 2))) + (width * 0.875f - px);
-	//	//	//int x = (pos.x - px - (width * 0.875f)) / (width - (width * 0.875f));
-	//	//	//pos.y = (sqrt(-pow(x, 2) + 1) + m_drawShape->getPosition().y);
-	//	//	pos.y += 0.5f;
-	//	//	//spr->setRotation(270 * (y-1));
-	//	//}
+		//	/* draw sprite */
+		//	spr->setPosition(pos);
+		//}
+	}
+	else if (type == eTrackType::FUNCTION_TRACK) {
+		for (int i = 0; i < sprites.size(); i++) {
+			sf::Sprite* spr = &sprites[i];
+			sf::Vector2f pos = spr->getPosition();
 
-	//	if (pos.x >= (width * 0.875f) - px) {
-	//		float y = ((pos.y - py) / height);
-	//		pos.x = (sqrt(1 - pow(y, 2))) + (width * 0.875f - px);
-	//		pos.y += 0.5f;
-	//	}
+			float s = speed;
+			if (i % 2 == 1) {
+				s = -s;
+			}
 
-	//	if (pos.y >= py + height) {
-	//		//pos.x = (i * spr->getGlobalBounds().width) + -(t * delta) + (width * 0.875f);
-	//		pos.x -= t;
-	//	}
+			pos.x = i * sprites[i].getGlobalBounds().width;
 
-	//	/* draw sprite */
-	//	spr->setPosition(pos);
-	//}
+			float x = pos.x - m_drawShape->getGlobalBounds().left;
+			float offset = (sin(time * s) * oscillation);
+			pos.y = m_drawShape->getPosition().y + (-x) + offset;
+
+
+			sprites[i].setPosition(pos);
+		}
+	}
 }

@@ -10,6 +10,14 @@
 /// <author>
 /// original: Rion Meehan
 /// </author>
+
+enum eTrackType {
+	NONE,
+	WAVE_TRACK,
+	CONVEYOR_TRACK,
+	FUNCTION_TRACK
+};
+
 class TrackEntity :
 	public GameEntity 
 {
@@ -18,6 +26,14 @@ public:
 
 	/* Creates a Wave Track. Body is in GameEntity.h. Returns NULL if props are incorrect or incomplete.*/
 	static GameEntity *CreateWaveTrackEntity(Editor::EntityType type, int ID,
+		std::map<std::string, std::string> &props);
+
+	/* Creates a Wave Track. Body is in GameEntity.h. Returns NULL if props are incorrect or incomplete.*/
+	static GameEntity *CreateConveyorTrackEntity(Editor::EntityType type, int ID,
+		std::map<std::string, std::string> &props);
+
+	/* Creates a Wave Track. Body is in GameEntity.h. Returns NULL if props are incorrect or incomplete.*/
+	static GameEntity *CreateFunctionTrackEntity(Editor::EntityType type, int ID,
 		std::map<std::string, std::string> &props);
 
 protected:
@@ -30,13 +46,14 @@ private:
 
 	/* A list of images to compose the sprites with. */
 	std::vector<sf::Sprite*> images;
+	sf::Vector2f scale;
 
 	/* A list of sf::Sprites to render. */
 	std::vector<sf::Sprite> sprites;
 
 	/* Track settings and variables */
+	eTrackType type;
 	bool initialized;
-	int maxSprites;
 	float time;
 	float oscillation;
 	float speed;
