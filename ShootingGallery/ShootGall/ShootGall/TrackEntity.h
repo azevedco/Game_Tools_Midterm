@@ -11,13 +11,18 @@
 /// original: Rion Meehan
 /// </author>
 
+
+/* All the different types of tracks. */
 enum eTrackType {
 	NONE,
+	CURTAIN,
 	WAVE_TRACK,
 	CONVEYOR_TRACK,
 	FUNCTION_TRACK
 };
 
+/* All potential functions for the function track, because formula parsing
+ * is far too difficult to justify. */
 enum eTrackFunction {
 	BLANK,
 	X,
@@ -34,6 +39,10 @@ class TrackEntity :
 {
 public:
 	virtual ~TrackEntity();
+
+	/* Creates a Curtain. Body is in GameEntity.h. Returns NULL if props are incorrect or incomplete.*/
+	static GameEntity *CreateCurtainEntity(Editor::EntityType type, int ID,
+		std::map<std::string, std::string> &props);
 
 	/* Creates a Wave Track. Body is in GameEntity.h. Returns NULL if props are incorrect or incomplete.*/
 	static GameEntity *CreateWaveTrackEntity(Editor::EntityType type, int ID,
@@ -58,6 +67,11 @@ private:
 	/* A list of images to compose the sprites with. */
 	std::vector<sf::Sprite*> images;
 	sf::Vector2f scale;
+
+	/* Variables specfic to the curtain */
+	sf::Sprite* bottomImage;
+	sf::Sprite* mainImage;
+	float height;
 
 	/* A list of sf::Sprites to render. */
 	std::vector<sf::Sprite> sprites;

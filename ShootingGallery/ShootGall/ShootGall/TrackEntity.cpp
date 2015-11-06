@@ -3,7 +3,8 @@
 //Constructor that initialises things to null. You should only call this in 
 // a factory method. Note that draw() makes it very dangerous to use an 
 // an improperly loaded entity of this type since the draw shape is NULL.
-TrackEntity::TrackEntity(int id) : GameEntity(id), type(eTrackType::NONE), initialized(false), time(0), oscillation(0.0f), speed(0.0f), scale(0.0f, 0.0f)
+TrackEntity::TrackEntity(int id) : GameEntity(id), type(eTrackType::NONE), initialized(false), 
+	time(0), oscillation(0.0f), speed(0.0f), scale(0.0f, 0.0f), height(0)
 {
 }
 
@@ -33,27 +34,75 @@ void TrackEntity::update(float delta) {
 	/* Figure out how many sprites to use. */
 	if (!initialized) {
 		int totalWidth = 0;
-		for (int i = 0; i < images.size(); i++) {
-			images[i]->setScale(scale);
-			totalWidth += images[i]->getGlobalBounds().width;
-		}
-
 		int maxSprites = 0;
-		if (totalWidth > 0) {
-			maxSprites = (int)m_drawShape->getLocalBounds().width / (int)totalWidth;
-		}
 
-		for (int i = 0; i < maxSprites; i++) {
-			sf::Sprite spr = sf::Sprite(*images[0]);
-			spr.setPosition(m_drawShape->getPosition());
-			sprites.push_back(spr);
+		if (type == eTrackType::CURTAIN) {
+			int heightSprites = ((int)m_drawShape->getLocalBounds().height / (int)mainImage->getLocalBounds().height);
+			int widthSprites = ((int)m_drawShape->getLocalBounds().width / (int)mainImage->getLocalBounds().width) + 1;
+			
+			for (int i = 0; i < heightSprites; i++) {
+				for (int j = 0; j < widthSprites; j++) {
+					sf::Sprite spr = sf::Sprite(*mainImage);
+					sf::Vector2f pos = sf::Vector2f(mainImage->getLocalBounds().width * j, mainImage->getLocalBounds().height * i);
+					spr.setPosition(m_drawShape->getPosition() + pos);
+					sprites.push_back(spr);
+				}
+			}
+
+			maxSprites = ((int)m_drawShape->getLocalBounds().width / (int)bottomImage->getLocalBounds().width) + 1;
+
+			for (int i = 0; i < maxSprites; i++) {
+				sf::Sprite spr = sf::Sprite(*bottomImage);
+				sf::Vector2f pos = sf::Vector2f(m_drawShape->getPosition().x + (mainImage->getLocalBounds().width * i),
+												m_drawShape->getPosition().y + m_drawShape->getGlobalBounds().height - bottomImage->getLocalBounds().height);
+				spr.setPosition(m_drawShape->getPosition() + pos);
+				sprites.push_back(spr);
+			}
+
+			height = m_drawShape->getGlobalBounds().height;
+		}
+		else {
+			for (int i = 0; i < images.size(); i++) {
+				images[i]->setScale(scale);
+				totalWidth += images[i]->getGlobalBounds().width;
+			}
+
+			if (totalWidth > 0) {
+				maxSprites = (int)m_drawShape->getLocalBounds().width / (int)totalWidth;
+			}
+
+			for (int i = 0; i < maxSprites; i++) {
+				sf::Sprite spr = sf::Sprite(*images[0]);
+				spr.setPosition(m_drawShape->getPosition());
+				sprites.push_back(spr);
+			}
 		}
 
 		initialized = true;
 	}
 
 	/* Determine track type. */
-	if (type == eTrackType::WAVE_TRACK) {
+	if (type == eTrackType::CURTAIN) {
+		sf::Keyboard kb;
+		int offset = 0;
+		if (kb.isKeyPressed(kb.Up) && height > bottomImage->getGlobalBounds().height) {
+			offset = -5;
+		}
+		else if (kb.isKeyPressed(kb.Down) && height < m_drawShape->getGlobalBounds().height) {
+			offset = 5;
+		}
+		height += offset;
+
+		for (int i = 0; i < sprites.size(); i++) {
+			sf::Sprite* spr = &sprites[i];
+			sf::Vector2f pos = spr->getPosition();
+			
+			pos.y += offset;
+
+			sprites[i].setPosition(pos);
+		}
+	}
+	else if (type == eTrackType::WAVE_TRACK) {
 		for (int i = 0; i < sprites.size(); i++) {
 			sf::Sprite* spr = &sprites[i];
 			sf::Vector2f pos = spr->getPosition();

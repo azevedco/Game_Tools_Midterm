@@ -140,6 +140,59 @@ GameEntity *StaticEntity::CreateSpriteEntity(Editor::EntityType type, int ID,
 				txt->loadFromFile(it->second);
 				ge->m_drawShape->setTexture(txt);
 			}
+			else if (propName == "Orientation") {
+				sf::Vector2f dim = StringUtils::FromString<sf::Vector2f>(it->second);
+				ge->m_drawShape->setScale((float)dim.x, (float)dim.y);
+			}
+		}
+	}
+	//Return the initialised game entity.
+	return ge;
+}
+
+
+GameEntity *TrackEntity::CreateCurtainEntity(Editor::EntityType type, int ID,
+	std::map < std::string, std::string > &props) {
+
+	TrackEntity *ge = new TrackEntity(ID);
+	ge->m_drawShape = new sf::RectangleShape();
+	ge->type = eTrackType::CURTAIN;
+
+	bool propMissing = false;
+	for (std::size_t i = 0; i < Editor::EntityProperties[(int)type].size(); i++) {
+		std::string propName = Editor::EntityProperties[(int)type][i];
+		std::map<std::string, std::string>::iterator it = props.find(propName);
+		//Currently we fail as soon as we miss a single value - if we have optional parameters we will
+		// need to make this logic a bit more complex.
+		if (it == props.end()) {
+			propMissing = true;
+			delete ge;
+			return NULL;
+		}
+		else {
+			//If the property is found, convert it to the appropriate type and initialise the object with
+			// the value.
+			if (propName == "Dimensions") {
+				sf::IntRect dim = StringUtils::FromString<sf::IntRect>(it->second);
+				ge->m_drawShape->setPosition(sf::Vector2f((float)dim.left, (float)dim.top));
+				((sf::RectangleShape *)(ge->m_drawShape))->setSize(sf::Vector2f((float)dim.width, (float)dim.height));
+			}
+			else if (propName == "BottomImage") {
+				sf::Sprite* spr = new sf::Sprite();
+				sf::Texture* txt = new sf::Texture();
+				txt->loadFromFile(it->second);
+				spr->setTexture(*txt);
+				ge->images.push_back(spr);
+				ge->bottomImage = spr;
+			}
+			else if (propName == "MainImage") {
+				sf::Sprite* spr = new sf::Sprite();
+				sf::Texture* txt = new sf::Texture();
+				txt->loadFromFile(it->second);
+				spr->setTexture(*txt);
+				ge->images.push_back(spr);
+				ge->mainImage = spr;
+			}
 		}
 	}
 	//Return the initialised game entity.
@@ -184,7 +237,6 @@ GameEntity *TrackEntity::CreateWaveTrackEntity(Editor::EntityType type, int ID,
 				sf::Texture* txt = new sf::Texture();
 				txt->loadFromFile(it->second);
 				spr->setTexture(*txt);
-				spr->setPosition(sf::Vector2f(350.0f, 350.0f));
 				ge->images.push_back(spr);
 			}
 			else if (propName == "Scale") {
@@ -235,7 +287,6 @@ GameEntity *TrackEntity::CreateConveyorTrackEntity(Editor::EntityType type, int 
 				sf::Texture* txt = new sf::Texture();
 				txt->loadFromFile(it->second);
 				spr->setTexture(*txt);
-				spr->setPosition(sf::Vector2f(350.0f, 350.0f));
 				ge->images.push_back(spr);
 			}
 			else if (propName == "Scale") {
@@ -286,7 +337,6 @@ GameEntity *TrackEntity::CreateFunctionTrackEntity(Editor::EntityType type, int 
 				sf::Texture* txt = new sf::Texture();
 				txt->loadFromFile(it->second);
 				spr->setTexture(*txt);
-				spr->setPosition(sf::Vector2f(350.0f, 350.0f));
 				ge->images.push_back(spr);
 			}
 			else if (propName == "Scale") {
@@ -308,6 +358,7 @@ factories = {
 	&StaticEntity::CreateRectangularEntity,
 	&StaticEntity::CreateCircularEntity,
 	&StaticEntity::CreateSpriteEntity,
+	&TrackEntity::CreateCurtainEntity,
 	&TrackEntity::CreateWaveTrackEntity,
 	&TrackEntity::CreateConveyorTrackEntity,
 	&TrackEntity::CreateFunctionTrackEntity

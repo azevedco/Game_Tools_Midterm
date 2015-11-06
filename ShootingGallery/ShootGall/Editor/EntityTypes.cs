@@ -22,9 +22,10 @@ namespace Editor
         RECT = 1,
         CIRCLE = 2,
         SPRITE = 3,
-        WAVE_TRACK = 4,
-        CONVERYOR_TRACK = 5,
-        FUNCTION_TRACK = 6,
+        CURTAIN = 4,
+        WAVE_TRACK = 5,
+        CONVERYOR_TRACK = 6,
+        FUNCTION_TRACK = 7,
         COUNT
     };
 #if CS
@@ -58,7 +59,12 @@ namespace Editor
         new String[]
 #endif
             /* Sprite */
-            {"Dimensions", "Image"},
+            {"Dimensions", "Image", "Orientation"},
+#if CS
+        new String[]
+#endif
+            /* Curtain */
+            {"Dimensions", "BottomImage", "MainImage"},
 #if CS
         new String[]
 #endif
