@@ -59,7 +59,7 @@ namespace Editor
         new String[]
 #endif
             /* Sprite */
-            {"Dimensions", "Image", "Orientation"},
+            {"Dimensions", "Image", "Scale"},
 #if CS
         new String[]
 #endif

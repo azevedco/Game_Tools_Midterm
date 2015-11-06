@@ -30,8 +30,7 @@ enum eTrackFunction {
 	SINX,
 	NSINX,
 	COSX,
-	NCOSX,
-	COUNT
+	NCOSX
 };
 
 

@@ -137,10 +137,11 @@ GameEntity *StaticEntity::CreateSpriteEntity(Editor::EntityType type, int ID,
 			}
 			else if (propName == "Image") {
 				sf::Texture* txt = new sf::Texture();
+				it->second = "../../" + it->second;
 				txt->loadFromFile(it->second);
 				ge->m_drawShape->setTexture(txt);
 			}
-			else if (propName == "Orientation") {
+			else if (propName == "Scale") {
 				sf::Vector2f dim = StringUtils::FromString<sf::Vector2f>(it->second);
 				ge->m_drawShape->setScale((float)dim.x, (float)dim.y);
 			}
@@ -180,6 +181,7 @@ GameEntity *TrackEntity::CreateCurtainEntity(Editor::EntityType type, int ID,
 			else if (propName == "BottomImage") {
 				sf::Sprite* spr = new sf::Sprite();
 				sf::Texture* txt = new sf::Texture();
+				it->second = "../../" + it->second;
 				txt->loadFromFile(it->second);
 				spr->setTexture(*txt);
 				ge->images.push_back(spr);
@@ -188,6 +190,7 @@ GameEntity *TrackEntity::CreateCurtainEntity(Editor::EntityType type, int ID,
 			else if (propName == "MainImage") {
 				sf::Sprite* spr = new sf::Sprite();
 				sf::Texture* txt = new sf::Texture();
+				it->second = "../../" + it->second;
 				txt->loadFromFile(it->second);
 				spr->setTexture(*txt);
 				ge->images.push_back(spr);
@@ -235,6 +238,7 @@ GameEntity *TrackEntity::CreateWaveTrackEntity(Editor::EntityType type, int ID,
 			else if (propName == "Image") {
 				sf::Sprite* spr = new sf::Sprite();
 				sf::Texture* txt = new sf::Texture();
+				it->second = "../../" + it->second;
 				txt->loadFromFile(it->second);
 				spr->setTexture(*txt);
 				ge->images.push_back(spr);
@@ -285,6 +289,7 @@ GameEntity *TrackEntity::CreateConveyorTrackEntity(Editor::EntityType type, int 
 			else if (propName == "Image") {
 				sf::Sprite* spr = new sf::Sprite();
 				sf::Texture* txt = new sf::Texture();
+				it->second = "../../" + it->second;
 				txt->loadFromFile(it->second);
 				spr->setTexture(*txt);
 				ge->images.push_back(spr);
@@ -338,6 +343,7 @@ GameEntity *TrackEntity::CreateFunctionTrackEntity(Editor::EntityType type, int 
 			else if (propName == "Image") {
 				sf::Sprite* spr = new sf::Sprite();
 				sf::Texture* txt = new sf::Texture();
+				it->second = "../../" + it->second;
 				txt->loadFromFile(it->second);
 				spr->setTexture(*txt);
 				ge->images.push_back(spr);
