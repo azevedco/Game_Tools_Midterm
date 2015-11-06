@@ -156,6 +156,90 @@ namespace Editor
             return ge;
         }
 
+        //Create Track One
+        public static GameEntity CreateTrackOne(int x, int y, int w, int h)
+        {
+            GameEntity ge = new GameEntity();
+            ge.Type = EntityType.WAVE_TRACK;
+
+            CustomProperty dim = new CustomProperty { Name = "Dimensions", Type = typeof(Rectangle), DefaultValue = new Rectangle(x, y, w, h) };
+            ge.Props.TryAdd(dim);
+            CustomProperty osc = new CustomProperty { Name = "Oscillation", Type = typeof(float), DefaultValue = 1.0f };
+            ge.Props.TryAdd(osc);
+            CustomProperty spd = new CustomProperty { Name = "Speed", Type = typeof(float), DefaultValue = 1.0f };
+            ge.Props.TryAdd(spd);
+            CustomProperty img = new CustomProperty { Name = "Image", Type = typeof(Image), DefaultValue = null };
+            ge.Props.TryAdd(img);
+
+            ge.SetBoundingBox = new delSetBoundingBox(delegate(Rectangle r)
+            {
+                ge.Props["Dimensions"] = r;
+            });
+
+            ge.GetBoundingBox = new delGetBoundingBox(delegate()
+            {
+                return ge.Props["Dimensions"] == null ? (Rectangle)dim.DefaultValue : (Rectangle)ge.Props["Dimensions"];
+            });
+
+            return ge;
+        }
+
+        //Create Track Two
+        public static GameEntity CreateTrackTwo(int x, int y, int w, int h)
+        {
+            GameEntity ge = new GameEntity();
+            ge.Type = EntityType.CONVERYOR_TRACK;
+
+            CustomProperty dim = new CustomProperty { Name = "Dimensions", Type = typeof(Rectangle), DefaultValue = new Rectangle(x, y, w, h) };
+            ge.Props.TryAdd(dim);
+            CustomProperty spd = new CustomProperty { Name = "Speed", Type = typeof(float), DefaultValue = 1.0f };
+            ge.Props.TryAdd(spd);
+            CustomProperty sprites = new CustomProperty { Name = "Sprites", Type = typeof(List<Image>), DefaultValue = new List<Image>() };
+            ge.Props.TryAdd(sprites);
+
+            ge.SetBoundingBox = new delSetBoundingBox(delegate(Rectangle r)
+            {
+                ge.Props["Dimensions"] = r;
+            });
+
+            ge.GetBoundingBox = new delGetBoundingBox(delegate()
+            {
+                return ge.Props["Dimensions"] == null ? (Rectangle)dim.DefaultValue : (Rectangle)ge.Props["Dimensions"];
+            });
+
+            return ge;
+        }
+
+        //Create Track Three
+        public static GameEntity CreateTrackThree(int x, int y, int w, int h)
+        {
+            GameEntity ge = new GameEntity();
+
+            ge.Type = EntityType.FUNCTION_TRACK;
+
+            CustomProperty dim = new CustomProperty { Name = "Dimensions", Type = typeof(Rectangle), DefaultValue = new Rectangle(x, y, w, h) };
+            ge.Props.TryAdd(dim);
+            CustomProperty osc = new CustomProperty { Name = "Oscillation", Type = typeof(float), DefaultValue = 1.0f };
+            ge.Props.TryAdd(osc);
+            //Place holder prop for function, not sure what this is yet.
+            CustomProperty function = new CustomProperty { Name = "Function", Type = typeof(string), DefaultValue = "PlaceHolder" };
+            ge.Props.TryAdd(function);
+            CustomProperty sprites = new CustomProperty { Name = "Sprites", Type = typeof(List<Image>), DefaultValue = new List<Image>() };
+            ge.Props.TryAdd(sprites);
+
+            ge.SetBoundingBox = new delSetBoundingBox(delegate(Rectangle r)
+            {
+                ge.Props["Dimensions"] = r;
+            });
+
+            ge.GetBoundingBox = new delGetBoundingBox(delegate()
+            {
+                return ge.Props["Dimensions"] == null ? (Rectangle)dim.DefaultValue : (Rectangle)ge.Props["Dimensions"];
+            });
+
+            return ge;
+        }
+
         // Take in a GameEntity, create new GameEntity, set new entity with new values equal to original GameEntity
         public static GameEntity CloneEntity(GameEntity ge)
         {
@@ -165,12 +249,12 @@ namespace Editor
 
             newGE.Type = ge.Type;
 
-            newGE.Props.TryAdd(new CustomProperty { Name = "OutlineColor", Type = typeof(Color), DefaultValue = (Color)ge.Props["OutlineColor"] });
-            newGE.Props.TryAdd(new CustomProperty { Name = "FillColor", Type = typeof(Color), DefaultValue = (Color)ge.Props["FillColor"] });
-
             switch(newGE.Type)
             {
                 case EntityType.CIRCLE:
+                    newGE.Props.TryAdd(new CustomProperty { Name = "OutlineColor", Type = typeof(Color), DefaultValue = (Color)ge.Props["OutlineColor"] });
+                    newGE.Props.TryAdd(new CustomProperty { Name = "FillColor", Type = typeof(Color), DefaultValue = (Color)ge.Props["FillColor"] });
+
                     CustomProperty rad = new CustomProperty { Name = "Radius", Type = typeof(int), DefaultValue = (int)ge.Props["Radius"] };
                     newGE.Props.TryAdd(rad);
                     Point gePos = (Point)ge.Props["Position"];
@@ -204,6 +288,9 @@ namespace Editor
 
                     break;
                 case EntityType.RECT:
+                    newGE.Props.TryAdd(new CustomProperty { Name = "OutlineColor", Type = typeof(Color), DefaultValue = (Color)ge.Props["OutlineColor"] });
+                    newGE.Props.TryAdd(new CustomProperty { Name = "FillColor", Type = typeof(Color), DefaultValue = (Color)ge.Props["FillColor"] });
+
                     Rectangle geRect = (Rectangle)ge.Props["Dimensions"];
                     geRect.X += clonePosOffset;
                     geRect.Y += clonePosOffset;
@@ -220,6 +307,32 @@ namespace Editor
                         return newGE.Props["Dimensions"] == null ? (Rectangle)dim.DefaultValue : (Rectangle)newGE.Props["Dimensions"];
                     });
 
+                    break;
+                case EntityType.WAVE_TRACK:
+
+                    newGE.Props.TryAdd(new CustomProperty { Name = "Dimensions", Type = typeof(Rectangle), DefaultValue = (Rectangle)ge.Props["Dimensions"] });
+                    newGE.Props.TryAdd(new CustomProperty { Name = "Oscillation", Type = typeof(float), DefaultValue = (float)ge.Props["Oscillation"] });
+                    newGE.Props.TryAdd(new CustomProperty { Name = "Speed", Type = typeof(float), DefaultValue = (float)ge.Props["Speed"] });
+                    newGE.Props.TryAdd(new CustomProperty { Name = "Image", Type = typeof(Image), DefaultValue = (Image)ge.Props["Image"] });
+
+                    newGE.SetBoundingBox = new delSetBoundingBox(delegate(Rectangle r)
+                    {
+                        newGE.Props["Dimensions"] = r;
+                    });
+
+                    //newGE.GetBoundingBox = new delGetBoundingBox(delegate()
+                    //{
+                    //    return newGE.Props["Dimensions"] == null ? (Rectangle)dim.DefaultValue : (Rectangle)ge.Props["Dimensions"];
+                    //});
+
+                    break;
+                case EntityType.CONVERYOR_TRACK:
+
+                    return null;
+                    break;
+                case EntityType.FUNCTION_TRACK:
+
+                    return null;
                     break;
                 default:
                     return null;
