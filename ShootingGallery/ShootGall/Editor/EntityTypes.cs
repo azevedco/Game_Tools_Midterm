@@ -16,7 +16,7 @@ namespace Editor
 #if CS
     public
 #endif
-    enum EntityType
+ enum EntityType
     {
         NONE = 0,
         RECT = 1,
@@ -42,14 +42,17 @@ namespace Editor
 #if CS
         new String[]
 #endif
+            /* None */
             { "" },
 #if CS
         new String[]
 #endif
+            /* Rectangle */
             {"Dimensions", "OutlineColor", "FillColor" },
 #if CS
         new String[]
 #endif
+            /* Circle */
             {"Position", "Radius", "OutlineColor", "FillColor"},
 #if CS
         new String[]
@@ -60,17 +63,17 @@ namespace Editor
         new String[]
 #endif
             /* Track 1: Wave Track */
-            {"Dimensions", "Oscillation", "Speed", "Image"},
+            {"Dimensions", "Oscillation", "Speed", "Image", "Scale"},
 #if CS
         new String[]
 #endif
             /* Track 2: Conveyor Track */
-            {"Dimensions", "Speed", "Sprites"},
+            {"Dimensions", "Speed", "Image", "Scale"},
 #if CS
         new String[]
 #endif
             /* Track 3: Function Track */
-            {"Dimensions", "Oscillation", "Function", "Sprites"}
+            {"Dimensions", "Oscillation", "Speed", "Function", "Image", "Scale"}
         };
 #if CS
     }

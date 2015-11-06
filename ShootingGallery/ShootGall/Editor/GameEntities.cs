@@ -135,7 +135,7 @@ namespace Editor
                 ge.Props["Position"] = r.Location;
 
                 /* Only height or width can be used, averaging them makes resizing difficult */
-                ge.Props["Radius"] = r.Size.Width;
+                ge.Props["Radius"] = r.Size.Width / 2;
             });
 
             ge.GetBoundingBox = new delGetBoundingBox(delegate ()
@@ -144,11 +144,11 @@ namespace Editor
                 Rectangle bound;
                 if (ge.Props["Position"] == null || ge.Props["Radius"] == null)
                 {
-                    bound = new Rectangle((Point)pos.DefaultValue, new Size((int)rad.DefaultValue, (int)rad.DefaultValue));
+                    bound = new Rectangle((Point)pos.DefaultValue, new Size((int)rad.DefaultValue*2, (int)rad.DefaultValue*2));
                 }
                 else
                 {
-                    bound = new Rectangle((Point)ge.Props["Position"], new Size((int)ge.Props["Radius"], (int)ge.Props["Radius"]));
+                    bound = new Rectangle((Point)ge.Props["Position"], new Size((int)ge.Props["Radius"]*2, (int)ge.Props["Radius"]*2));
                 }
                 return bound;
             });
