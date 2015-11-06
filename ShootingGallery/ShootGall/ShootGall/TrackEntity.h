@@ -34,6 +34,7 @@ enum eTrackFunction {
 	COUNT
 };
 
+
 class TrackEntity :
 	public GameEntity 
 {
@@ -48,11 +49,11 @@ public:
 	static GameEntity *CreateWaveTrackEntity(Editor::EntityType type, int ID,
 		std::map<std::string, std::string> &props);
 
-	/* Creates a Wave Track. Body is in GameEntity.h. Returns NULL if props are incorrect or incomplete.*/
+	/* Creates a Conveyor Track. Body is in GameEntity.h. Returns NULL if props are incorrect or incomplete.*/
 	static GameEntity *CreateConveyorTrackEntity(Editor::EntityType type, int ID,
 		std::map<std::string, std::string> &props);
 
-	/* Creates a Wave Track. Body is in GameEntity.h. Returns NULL if props are incorrect or incomplete.*/
+	/* Creates a Function Track. Body is in GameEntity.h. Returns NULL if props are incorrect or incomplete.*/
 	static GameEntity *CreateFunctionTrackEntity(Editor::EntityType type, int ID,
 		std::map<std::string, std::string> &props);
 
@@ -82,6 +83,9 @@ private:
 	float time;
 	float oscillation;
 	float speed;
+
+	/* Variables specific to the function track */
+	eTrackFunction function;
 
 	//Draw method inherited from sf::Drawable.
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;

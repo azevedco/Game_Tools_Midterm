@@ -61,15 +61,22 @@
   </GameEntity>
   <GameEntity Type="5" TypeStr="WAVE_TRACK" ID="2">
     <Dimensions TypeStr="System.Drawing.Rectangle">-10 275 1000 100</Dimensions>
-	<Oscillation TypeStr="float">5</Oscillation>
+	<Oscillation TypeStr="float">1</Oscillation>
 	<Speed TypeStr="float">2</Speed>
     <Image TypeStr="">..\..\Assets\Stall\grass2.png</Image>
 	<Scale>1 1</Scale>
   </GameEntity>
+  <GameEntity Type="5" TypeStr="WAVE_TRACK" ID="2">
+    <Dimensions TypeStr="System.Drawing.Rectangle">-10 340 1000 100</Dimensions>
+	<Oscillation TypeStr="float">4</Oscillation>
+	<Speed TypeStr="float">2</Speed>
+    <Image TypeStr="">..\..\Assets\Stall\water2.png</Image>
+	<Scale>0.4 0.4</Scale>
+  </GameEntity>
   <GameEntity Type="5" TypeStr="WAVE_TRACK" ID="3">
     <Dimensions TypeStr="System.Drawing.Rectangle">-10 375 1000 100</Dimensions>
-	<Oscillation TypeStr="float">10</Oscillation>
-	<Speed TypeStr="float">2</Speed>
+	<Oscillation TypeStr="float">1</Oscillation>
+	<Speed TypeStr="float">3</Speed>
     <Image TypeStr="">..\..\Assets\Stall\grass2.png</Image>
 	<Scale>0.5 0.5</Scale>
   </GameEntity>
@@ -105,12 +112,12 @@
 	<Orientation>1 1</Orientation>
   </GameEntity>
   <GameEntity Type="3" TypeStr="SPRITE" ID="3">
-    <Dimensions TypeStr="System.Drawing.Rectangle">-10 -10 131 580</Dimensions>
+    <Dimensions TypeStr="System.Drawing.Rectangle">-10 -10 131 600</Dimensions>
     <Image TypeStr="">..\..\Assets\Stall\curtain_side.png</Image>
 	<Orientation>1 1</Orientation>
   </GameEntity>
   <GameEntity Type="3" TypeStr="SPRITE" ID="3">
-    <Dimensions TypeStr="System.Drawing.Rectangle">810 -10 131 580</Dimensions>
+    <Dimensions TypeStr="System.Drawing.Rectangle">810 -10 131 600</Dimensions>
     <Image TypeStr="">..\..\Assets\Stall\curtain_side.png</Image>
 	<Orientation>-1 1</Orientation>
   </GameEntity>

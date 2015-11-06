@@ -6,6 +6,8 @@
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/Color.hpp>
 
+#include "TrackEntity.h"
+
 //Collection of useful methods for playing around with strings. 
 namespace StringUtils {
 	//Split strings according to a delimeter.
@@ -91,5 +93,38 @@ namespace StringUtils {
 		r.x = FromString<float>(nums[0]);
 		r.y = FromString<float>(nums[1]);
 		return r;
+	}
+
+
+	//Explicit specialisation of the FromString overly trusting 
+	// conversion routine for handling eTrackFunction.
+	template<>
+	eTrackFunction FromString(std::string const &in) {
+		std::vector<std::string> nums = split(in, ' ');
+		if (nums.size() != 1) {
+			return eTrackFunction::BLANK;
+		}
+		
+		if (nums[0] == "X") {
+			return eTrackFunction::X;
+		}
+		else if (nums[0] == "NX") {
+			return eTrackFunction::NX;
+		}
+		else if (nums[0] == "SINX") {
+			return eTrackFunction::SINX;
+		}
+		else if (nums[0] == "NSINX") {
+			return eTrackFunction::NSINX;
+		}
+		else if (nums[0] == "COSX") {
+			return eTrackFunction::COSX;
+		}
+		else if (nums[0] == "NCOSX") {
+			return eTrackFunction::NCOSX;
+		}
+		else {
+			return eTrackFunction::BLANK;
+		}
 	}
 }

@@ -4,7 +4,7 @@
 // a factory method. Note that draw() makes it very dangerous to use an 
 // an improperly loaded entity of this type since the draw shape is NULL.
 TrackEntity::TrackEntity(int id) : GameEntity(id), type(eTrackType::NONE), initialized(false), 
-	time(0), oscillation(0.0f), speed(0.0f), scale(0.0f, 0.0f), height(0)
+	time(0), oscillation(0.0f), speed(0.0f), scale(0.0f, 0.0f), height(0), function(eTrackFunction::BLANK)
 {
 }
 
@@ -181,7 +181,30 @@ void TrackEntity::update(float delta) {
 			float x = pos.x - m_drawShape->getGlobalBounds().left;
 			float y = pos.y - m_drawShape->getGlobalBounds().top;
 			float offset = (sin(time * s) * oscillation);
-			pos.y = m_drawShape->getPosition().y + (-cos(x)) + offset;
+
+			switch (function) {
+				case eTrackFunction::X:
+					pos.y = m_drawShape->getPosition().y + (x) + offset;
+					break;
+				case eTrackFunction::NX:
+					pos.y = m_drawShape->getPosition().y + (-x) + offset;
+					break;
+				case eTrackFunction::SINX:
+					pos.y = m_drawShape->getPosition().y + (sin(x) * 10) + offset;
+					break;
+				case eTrackFunction::NSINX:
+					pos.y = m_drawShape->getPosition().y + (-sin(x) * 10) + offset;
+					break;
+				case eTrackFunction::COSX:
+					pos.y = m_drawShape->getPosition().y + (cos(x) * 10) + offset;
+					break;
+				case eTrackFunction::NCOSX:
+					pos.y = m_drawShape->getPosition().y + (-cos(x) * 10) + offset;
+					break;
+				default:
+					pos.y = m_drawShape->getPosition().y + offset;
+					break;
+			}
 
 			sprites[i].setPosition(pos);
 		}

@@ -332,6 +332,9 @@ GameEntity *TrackEntity::CreateFunctionTrackEntity(Editor::EntityType type, int 
 			else if (propName == "Speed") {
 				ge->speed = StringUtils::FromString<float>(it->second);
 			}
+			else if (propName == "Function") {
+				ge->function = StringUtils::FromString<eTrackFunction>(it->second);
+			}
 			else if (propName == "Image") {
 				sf::Sprite* spr = new sf::Sprite();
 				sf::Texture* txt = new sf::Texture();
