@@ -271,26 +271,29 @@ namespace Editor
             else
             {
                 /* No action. Set cursor state. */
-                if (ge != null)
+                if (toolsPointer_rb.Checked)
                 {
-                    tabControl1.Cursor = Cursors.Arrow;
-
-                    if (ge.GetBoundingBox().Contains(me.Location))
+                    if (ge != null)
                     {
-                        tabControl1.Cursor = Cursors.SizeAll;
-                    }
+                        tabControl1.Cursor = Cursors.Arrow;
 
-                    for (int i = 0; i < 4; i++)
-                    {
-                        if (ge.CornerHandles[i].Contains(me.Location))
+                        if (ge.GetBoundingBox().Contains(me.Location))
                         {
-                            if (i % 2 == 0)
+                            tabControl1.Cursor = Cursors.SizeAll;
+                        }
+
+                        for (int i = 0; i < 4; i++)
+                        {
+                            if (ge.CornerHandles[i].Contains(me.Location))
                             {
-                                tabControl1.Cursor = Cursors.SizeNWSE;
-                            }
-                            else
-                            {
-                                tabControl1.Cursor = Cursors.SizeNESW;
+                                if (i % 2 == 0)
+                                {
+                                    tabControl1.Cursor = Cursors.SizeNWSE;
+                                }
+                                else
+                                {
+                                    tabControl1.Cursor = Cursors.SizeNESW;
+                                }
                             }
                         }
                     }
@@ -360,7 +363,7 @@ namespace Editor
             else if (toolsCircle_rb.Checked && me.Button == MouseButtons.Left)
             {
                 /* Makes the Circle button work. */
-                ge = GameEntity.CreateCircle(100, me.Location);
+                ge = GameEntity.CreateCircle(50, me.Location);
             }
 
             if (ge != null)
@@ -425,7 +428,7 @@ namespace Editor
                     using (Pen p = new Pen(Color.Red))
                     {
                         p.DashPattern = new float[]{4.0f, 2.0f};
-                        g.DrawRectangle(p, outline );
+                        g.DrawRectangle(p, outline);
                     }
                     using (SolidBrush sb = new SolidBrush(Color.Red))
                     {

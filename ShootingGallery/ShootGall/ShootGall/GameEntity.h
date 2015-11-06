@@ -44,6 +44,7 @@ public:
 	// entity.
 	static GameEntity *loadFromXml(tinyxml2::XMLElement *element);
 	
+	virtual void update(float delta) {};
 
 protected:
 	//Create a new game entity. Must have a unique ID (note that the ID is not
@@ -58,8 +59,6 @@ private:
 	int m_id;
 	//Draw override. Currently declared as a pure virtual, making GameEntity an abstract class.
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const = 0;
-	
-	
 	
 };
 

@@ -151,6 +151,11 @@ namespace Editor
                     Rectangle r = (Rectangle)value;
                     el.InnerText = r.X + " " + r.Y + " " + r.Width + " " + r.Height;
                 }
+                else if (cp.Type == typeof(Point))
+                {
+                    Point p = (Point)value;
+                    el.InnerText = p.X + " " + p.Y + " " + 0 + " " + 0;
+                }
                 else
                 {
                     el.InnerText = value.ToString();
