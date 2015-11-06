@@ -612,7 +612,7 @@ namespace Editor
             }
 
             doc.AppendChild(root);
-            doc.Save("../../Debug/Output.xml");
+            doc.Save("../../../Debug/Output.xml");
         }
 
         //Clone Game Entity

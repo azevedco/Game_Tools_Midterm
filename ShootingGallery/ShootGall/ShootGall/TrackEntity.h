@@ -18,6 +18,17 @@ enum eTrackType {
 	FUNCTION_TRACK
 };
 
+enum eTrackFunction {
+	BLANK,
+	X,
+	NX,
+	SINX,
+	NSINX,
+	COSX,
+	NCOSX,
+	COUNT
+};
+
 class TrackEntity :
 	public GameEntity 
 {

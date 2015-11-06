@@ -130,9 +130,9 @@ void TrackEntity::update(float delta) {
 			pos.x = i * sprites[i].getGlobalBounds().width;
 
 			float x = pos.x - m_drawShape->getGlobalBounds().left;
+			float y = pos.y - m_drawShape->getGlobalBounds().top;
 			float offset = (sin(time * s) * oscillation);
-			pos.y = m_drawShape->getPosition().y + (-x) + offset;
-
+			pos.y = m_drawShape->getPosition().y + (-cos(x)) + offset;
 
 			sprites[i].setPosition(pos);
 		}
