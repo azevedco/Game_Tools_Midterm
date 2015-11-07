@@ -245,6 +245,64 @@ namespace Editor
                         r = new Rectangle(me.Location.X, BeforeResize.Location.Y, BeforeResize.Size.Width - offset.X, BeforeResize.Size.Width - offset.X);
                     }
                 }
+                else if (ge.Type == EntityType.WAVE_TRACK)
+                {
+                    if (Resizing == 0)
+                    {
+                        r = new Rectangle(me.Location.X, me.Location.Y, BeforeResize.Size.Width - offset.X, BeforeResize.Size.Height - offset.Y);
+                    }
+                    else if (Resizing == 1)
+                    {
+                        r = new Rectangle(BeforeResize.Location.X, me.Location.Y, offset.X, BeforeResize.Size.Height - offset.Y);
+                    }
+                    else if (Resizing == 2)
+                    {
+                        r = new Rectangle(BeforeResize.Location.X, BeforeResize.Location.Y, offset.X, offset.Y);
+                    }
+                    else if (Resizing == 3)
+                    {
+                        r = new Rectangle(me.Location.X, BeforeResize.Location.Y, BeforeResize.Size.Width - offset.X, offset.Y);
+                    }
+                }
+                else if (ge.Type == EntityType.CONVERYOR_TRACK)
+                {
+                    if (Resizing == 0)
+                    {
+                        r = new Rectangle(me.Location.X, me.Location.Y, BeforeResize.Size.Width - offset.X, BeforeResize.Size.Height - offset.Y);
+                    }
+                    else if (Resizing == 1)
+                    {
+                        r = new Rectangle(BeforeResize.Location.X, me.Location.Y, offset.X, BeforeResize.Size.Height - offset.Y);
+                    }
+                    else if (Resizing == 2)
+                    {
+                        r = new Rectangle(BeforeResize.Location.X, BeforeResize.Location.Y, offset.X, offset.Y);
+                    }
+                    else if (Resizing == 3)
+                    {
+                        r = new Rectangle(me.Location.X, BeforeResize.Location.Y, BeforeResize.Size.Width - offset.X, offset.Y);
+                    }
+                }
+                else if (ge.Type == EntityType.FUNCTION_TRACK)
+                {
+                    if (Resizing == 0)
+                    {
+                        r = new Rectangle(me.Location.X, me.Location.Y, BeforeResize.Size.Width - offset.X, BeforeResize.Size.Height - offset.Y);
+                    }
+                    else if (Resizing == 1)
+                    {
+                        r = new Rectangle(BeforeResize.Location.X, me.Location.Y, offset.X, BeforeResize.Size.Height - offset.Y);
+                    }
+                    else if (Resizing == 2)
+                    {
+                        r = new Rectangle(BeforeResize.Location.X, BeforeResize.Location.Y, offset.X, offset.Y);
+                    }
+                    else if (Resizing == 3)
+                    {
+                        r = new Rectangle(me.Location.X, BeforeResize.Location.Y, BeforeResize.Size.Width - offset.X, offset.Y);
+                    }
+                }
+
 
                 /* Fix the shape. Prevents a shape from having negative width or height. */
                 int adjustWidth = 0;
@@ -365,6 +423,21 @@ namespace Editor
                 /* Makes the Circle button work. */
                 ge = GameEntity.CreateCircle(50, me.Location);
             }
+            else if (toolsTrackOne_rb.Checked && me.Button == MouseButtons.Left)
+            {
+                /* Makes the TrackOne button work. */
+                ge = GameEntity.CreateTrackOne(me.X, me.Y, 100, 5);
+            }
+            else if (toolsTrackTwo_rb.Checked && me.Button == MouseButtons.Left)
+            {
+                /* Makes the TrackTwo button work. */
+                ge = GameEntity.CreateTrackTwo(me.X, me.Y, 100, 5);
+            }
+            else if (toolsTrackThree_rb.Checked && me.Button == MouseButtons.Left)
+            {
+                /* Makes the TrackThree button work. */
+                ge = GameEntity.CreateTrackThree(me.X, me.Y, 100, 5);
+            }
 
             if (ge != null)
             {
@@ -409,6 +482,46 @@ namespace Editor
                             using (Pen p = new Pen((Color)ge.Props["OutlineColor"]))
                             {
                                 g.DrawEllipse(p, bb);
+                            }
+                            break;
+                        }
+                    case EntityType.WAVE_TRACK:
+                        {
+                            Rectangle bb = ge.GetBoundingBox();
+                            using (Pen pen = new Pen(Color.Red))
+                            {
+                                g.DrawLine(pen, new Point(bb.X, bb.Y + (bb.Height / 2)), new Point(bb.X + bb.Width, bb.Y + (bb.Height / 2)));
+                            }
+                            break;
+                        }
+                    case EntityType.CONVERYOR_TRACK:
+                        {
+                            Rectangle bb = ge.GetBoundingBox();
+                            Point bbTopLeft = new Point(bb.X, bb.Y);
+                            Point bbTopRight = new Point(bb.X + bb.Width, bb.Y);
+                            Point bbBottomLeft = new Point(bb.X, bb.Y + bb.Height);
+                            Point bbBottomRight = new Point(bb.X + bb.Width, bb.Y + bb.Height);
+
+                            int curveStrength = bb.Height/2;
+
+                            Point[] rightCurve = { bbTopRight, new Point(bbTopRight.X + curveStrength, bbTopRight.Y + (bb.Height / 2)), bbBottomRight };
+                            Point[] leftCurve = { bbBottomLeft, new Point(bbBottomLeft.X - curveStrength, bbBottomLeft.Y - (bb.Height / 2)), bbTopLeft };
+
+                            using (Pen pen = new Pen(Color.Red))
+                            {
+                                g.DrawLine(pen, bbTopLeft, bbTopRight);
+                                g.DrawLine(pen, bbBottomLeft, bbBottomRight);
+                                g.DrawCurve(pen, rightCurve, 0.5f);
+                                g.DrawCurve(pen, leftCurve, 0.5f);
+                            }
+                            break;
+                        }
+                    case EntityType.FUNCTION_TRACK:
+                        {
+                            Rectangle bb = ge.GetBoundingBox();
+                            using (Pen pen = new Pen(Color.Red))
+                            {
+                                g.DrawLine(pen, new Point(bb.X, bb.Y + (bb.Height / 2)), new Point(bb.X + bb.Width, bb.Y + (bb.Height / 2)));
                             }
                             break;
                         }
@@ -577,6 +690,22 @@ namespace Editor
             {
                 tabControl1.Cursor = Cursors.Cross;
             }
+            else if (toolsCircle_rb.Checked)
+            {
+                tabControl1.Cursor = Cursors.Cross;
+            }
+            else if (toolsTrackOne_rb.Checked)
+            {
+                tabControl1.Cursor = Cursors.Cross;
+            }
+            else if (toolsTrackTwo_rb.Checked)
+            {
+                tabControl1.Cursor = Cursors.Cross;
+            }
+            else if (toolsTrackThree_rb.Checked)
+            {
+                tabControl1.Cursor = Cursors.Cross;
+            }
         }
 
         //Whenever the user changes the tool, change the cursor to the appropriate type.
@@ -612,26 +741,45 @@ namespace Editor
             }
 
             doc.AppendChild(root);
-            doc.Save("../../Debug/Output.xml");
+            doc.Save("../../../Debug/Output.xml");
         }
 
         //Clone Game Entity
         private void clone_btn_Click(object sender, EventArgs e)
         {
-            GameEntity newEntity = GameEntity.CloneEntity(selectedObject_pg.SelectedObject as GameEntity);
-
-            if (newEntity != null)
+            if (gameEntities_lb.Items.Count > 0)
             {
-                gameEntities_lb.Items.Add(newEntity);
-                gameEntities_lb.SelectedIndex = gameEntities_lb.Items.Count - 1;
-                selectedObject_pg.SelectedObject = newEntity;
-                RefreshAll();
+                GameEntity newEntity = GameEntity.CloneEntity(selectedObject_pg.SelectedObject as GameEntity);
+
+                if (newEntity != null)
+                {
+                    gameEntities_lb.Items.Add(newEntity);
+                    gameEntities_lb.SelectedIndex = gameEntities_lb.Items.Count - 1;
+                    selectedObject_pg.SelectedObject = newEntity;
+                    RefreshAll();
+                }
             }
         }
 
         private void forward_btn_Click(object sender, EventArgs e)
         {
-            if(gameEntities_lb.SelectedIndex != gameEntities_lb.Items.Count-1)
+            if (gameEntities_lb.SelectedIndex != 0)
+            {
+                GameEntity tempGE = selectedObject_pg.SelectedObject as GameEntity;
+                int index = gameEntities_lb.SelectedIndex;
+
+
+                gameEntities_lb.Items.RemoveAt(index);
+                gameEntities_lb.Items.Insert(index - 1, tempGE);
+
+                gameEntities_lb.SelectedIndex = index - 1;
+                RefreshAll();
+            }
+        }
+
+        private void back_btn_Click(object sender, EventArgs e)
+        {
+            if (gameEntities_lb.SelectedIndex != gameEntities_lb.Items.Count - 1)
             {
                 GameEntity tempGE = selectedObject_pg.SelectedObject as GameEntity;
                 int index = gameEntities_lb.SelectedIndex;
@@ -640,22 +788,6 @@ namespace Editor
                 gameEntities_lb.Items.RemoveAt(index);
 
                 gameEntities_lb.SelectedIndex = index + 1;
-                RefreshAll();
-            }
-        }
-
-        private void back_btn_Click(object sender, EventArgs e)
-        {
-            if (gameEntities_lb.SelectedIndex != 0)
-            {
-                GameEntity tempGE = selectedObject_pg.SelectedObject as GameEntity;
-                int index = gameEntities_lb.SelectedIndex;
-
-                
-                gameEntities_lb.Items.RemoveAt(index);
-                gameEntities_lb.Items.Insert(index - 1, tempGE);
-
-                gameEntities_lb.SelectedIndex = index - 1;
                 RefreshAll();
             }
         }
@@ -681,6 +813,20 @@ namespace Editor
             }
         }
 
+        private void toolsTrackOne_rb_CheckedChanged(object sender, EventArgs e)
+        {
+            SetDefaultTabControlCursor();
+        }
+
+        private void toolsTrackTwo_rb_CheckedChanged(object sender, EventArgs e)
+        {
+            SetDefaultTabControlCursor();
+        }
+
+        private void toolsTrackThree_rb_CheckedChanged(object sender, EventArgs e)
+        {
+            SetDefaultTabControlCursor();
+        }
         
     }
 }

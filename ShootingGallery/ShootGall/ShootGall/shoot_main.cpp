@@ -9,7 +9,19 @@ int main(int argc, char *argv[]) {
 
 	//Create a new level and load it from an xml.
 	Level *l = new Level();
-	l->loadFromFile("../Debug/Output.xml");
+	std::string filename;
+	bool loaded = false;
+	
+	while (!loaded) {
+		std::cout << "Please provide a filename (for a valid XML level): ";
+		std::getline(std::cin, filename);
+		loaded = l->loadFromFile("../Debug/" + filename);
+		
+		if (!loaded) {
+			std::cout << "Couldn't load requested file." << std::endl;
+		}
+		std::cout << std::endl;
+	}
 
 	//Create the render window and gaming clock.
 	sf::RenderWindow window(sf::VideoMode(800, 600), "Shooting Gallery");

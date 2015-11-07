@@ -1,33 +1,78 @@
+<?xml version="1.0"?>
+ 
 <Entities>
-  <GameEntity Type="1" TypeStr="RECT" ID="0">
-    <OutlineColor TypeStr="System.Drawing.Color">0 0 0 255</OutlineColor>
-    <FillColor TypeStr="System.Drawing.Color">255 255 255 0</FillColor>
-    <Dimensions TypeStr="System.Drawing.Rectangle">350 143 100 100</Dimensions>
-  </GameEntity>
-  <GameEntity Type="1" TypeStr="RECT" ID="1">
-    <OutlineColor TypeStr="System.Drawing.Color">0 0 0 255</OutlineColor>
-    <FillColor TypeStr="System.Drawing.Color">255 255 255 0</FillColor>
-    <Dimensions TypeStr="System.Drawing.Rectangle">250 43 100 100</Dimensions>
-  </GameEntity>
-  <GameEntity Type="1" TypeStr="RECT" ID="2">
-    <OutlineColor TypeStr="System.Drawing.Color">0 0 0 255</OutlineColor>
-    <FillColor TypeStr="System.Drawing.Color">255 255 255 0</FillColor>
-    <Dimensions TypeStr="System.Drawing.Rectangle">150 143 100 100</Dimensions>
-  </GameEntity>
-  <GameEntity Type="3" TypeStr="SPRITE" ID="3">
-    <Dimensions TypeStr="System.Drawing.Rectangle">250 243 100 100</Dimensions>
-	<Image TypeStr="">..\..\Assets\Stall\curtain_side.png</Image>
-  </GameEntity>
-  <GameEntity Type="2" TypeStr="CIRCLE" ID="4">
-    <OutlineColor TypeStr="System.Drawing.Color">0 0 0 255</OutlineColor>
-    <FillColor TypeStr="System.Drawing.Color">255 255 255 0</FillColor>
-    <Radius TypeStr="System.Int32">50</Radius>
-    <Position TypeStr="System.Drawing.Point">250 143 0 0</Position>
-  </GameEntity>
-  <GameEntity Type="4" TypeStr="WAVE_TRACK" ID="5">
-    <Dimensions TypeStr="System.Drawing.Rectangle">0 300 500 100</Dimensions>
-	<Oscillation TypeStr="float">12</Oscillation>
-	<Speed TypeStr="float">50</Speed>
-    <Image TypeStr="">..\..\Assets\Stall\water1.png</Image>
-  </GameEntity>
+ 
+ 
+<GameEntity ID="0" TypeStr="SPRITE" Type="3">
+ 
+<OutlineColor TypeStr="System.Drawing.Color">0 0 0 255</OutlineColor>
+ 
+<FillColor TypeStr="System.Drawing.Color">255 255 255 0</FillColor>
+ 
+<Dimensions TypeStr="System.Drawing.Rectangle">170 191 21 116</Dimensions>
+ 
+<Image TypeStr="System.String">Assets/counter.png</Image>
+
+<Scale TypeStr="System.Drawing.Point">1 1</Scale>
+ 
+</GameEntity>
+ 
+ 
+<GameEntity ID="1" TypeStr="CIRCLE" Type="2">
+ 
+<OutlineColor TypeStr="System.Drawing.Color">0 0 0 255</OutlineColor>
+ 
+<FillColor TypeStr="System.Drawing.Color">255 255 255 0</FillColor>
+ 
+<Radius TypeStr="System.Int32">50</Radius>
+ 
+<Position TypeStr="System.Drawing.Point">332 70</Position>
+ 
+</GameEntity>
+ 
+ 
+<GameEntity ID="2" TypeStr="WAVE_TRACK" Type="5">
+ 
+<Dimensions TypeStr="System.Drawing.Rectangle">396 280 10 4</Dimensions>
+ 
+<Oscillation TypeStr="System.Single">20</Oscillation>
+ 
+<Speed TypeStr="System.Single">2</Speed>
+ 
+<Image TypeStr="System.String">Assets/counter.png</Image>
+ 
+<Scale TypeStr="System.Drawing.Point">1 1</Scale>
+ 
+</GameEntity>
+ 
+ 
+<GameEntity ID="3" TypeStr="CONVERYOR_TRACK" Type="6">
+ 
+<Dimensions TypeStr="System.Drawing.Rectangle">221 115 10 4</Dimensions>
+ 
+<Speed TypeStr="System.Single">60</Speed>
+ 
+<Image TypeStr="System.String">Assets/counter.png</Image>
+ 
+<Scale TypeStr="System.Drawing.Point">1 1</Scale>
+ 
+</GameEntity>
+ 
+ 
+<GameEntity ID="4" TypeStr="FUNCTION_TRACK" Type="7">
+ 
+<Dimensions TypeStr="System.Drawing.Rectangle">240 355 10 4</Dimensions>
+ 
+<Oscillation TypeStr="System.Int32">20</Oscillation>
+ 
+<Speed TypeStr="System.Single">2</Speed>
+ 
+<Function TypeStr="System.String">BLANK</Function>
+ 
+<Image TypeStr="System.String">Assets/counter.png</Image>
+ 
+<Scale TypeStr="System.Drawing.Point">1 1</Scale>
+ 
+</GameEntity>
+ 
 </Entities>

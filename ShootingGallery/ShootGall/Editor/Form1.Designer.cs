@@ -40,6 +40,9 @@
             this.toolsRect_rb = new System.Windows.Forms.RadioButton();
             this.toolsCircle_rb = new System.Windows.Forms.RadioButton();
             this.toolsCustom_rb = new System.Windows.Forms.RadioButton();
+            this.toolsTrackOne_rb = new System.Windows.Forms.RadioButton();
+            this.toolsTrackTwo_rb = new System.Windows.Forms.RadioButton();
+            this.toolsTrackThree_rb = new System.Windows.Forms.RadioButton();
             this.gameEntities_lb = new System.Windows.Forms.ListBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.delete_btn = new System.Windows.Forms.Button();
@@ -146,6 +149,9 @@
             this.tableLayoutPanel1.Controls.Add(this.toolsRect_rb, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.toolsCircle_rb, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.toolsCustom_rb, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.toolsTrackOne_rb, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.toolsTrackTwo_rb, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.toolsTrackThree_rb, 1, 3);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(4, 20);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(2);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -227,6 +233,57 @@
             this.toolsCustom_rb.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.toolsCustom_rb.UseVisualStyleBackColor = true;
             this.toolsCustom_rb.CheckedChanged += new System.EventHandler(this.ToolRadioButtons_CheckedChanged);
+            // 
+            // toolsTrackOne_rb
+            // 
+            this.toolsTrackOne_rb.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.toolsTrackOne_rb.Appearance = System.Windows.Forms.Appearance.Button;
+            this.toolsTrackOne_rb.AutoSize = true;
+            this.toolsTrackOne_rb.Location = new System.Drawing.Point(57, 91);
+            this.toolsTrackOne_rb.Name = "toolsTrackOne_rb";
+            this.toolsTrackOne_rb.Size = new System.Drawing.Size(48, 38);
+            this.toolsTrackOne_rb.TabIndex = 1;
+            this.toolsTrackOne_rb.TabStop = true;
+            this.toolsTrackOne_rb.Text = "Track One";
+            this.toolsTrackOne_rb.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.toolsTrackOne_rb.UseVisualStyleBackColor = true;
+            this.toolsTrackOne_rb.CheckedChanged += new System.EventHandler(this.toolsTrackOne_rb_CheckedChanged);
+            // 
+            // toolsTrackTwo_rb
+            // 
+            this.toolsTrackTwo_rb.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.toolsTrackTwo_rb.Appearance = System.Windows.Forms.Appearance.Button;
+            this.toolsTrackTwo_rb.AutoSize = true;
+            this.toolsTrackTwo_rb.Location = new System.Drawing.Point(3, 135);
+            this.toolsTrackTwo_rb.Name = "toolsTrackTwo_rb";
+            this.toolsTrackTwo_rb.Size = new System.Drawing.Size(48, 41);
+            this.toolsTrackTwo_rb.TabIndex = 2;
+            this.toolsTrackTwo_rb.TabStop = true;
+            this.toolsTrackTwo_rb.Text = "Track Two";
+            this.toolsTrackTwo_rb.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.toolsTrackTwo_rb.UseVisualStyleBackColor = true;
+            this.toolsTrackTwo_rb.CheckedChanged += new System.EventHandler(this.toolsTrackTwo_rb_CheckedChanged);
+            // 
+            // toolsTrackThree_rb
+            // 
+            this.toolsTrackThree_rb.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.toolsTrackThree_rb.Appearance = System.Windows.Forms.Appearance.Button;
+            this.toolsTrackThree_rb.AutoSize = true;
+            this.toolsTrackThree_rb.Location = new System.Drawing.Point(57, 135);
+            this.toolsTrackThree_rb.Name = "toolsTrackThree_rb";
+            this.toolsTrackThree_rb.Size = new System.Drawing.Size(48, 41);
+            this.toolsTrackThree_rb.TabIndex = 3;
+            this.toolsTrackThree_rb.TabStop = true;
+            this.toolsTrackThree_rb.Text = "Track Three";
+            this.toolsTrackThree_rb.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.toolsTrackThree_rb.UseVisualStyleBackColor = true;
+            this.toolsTrackThree_rb.CheckedChanged += new System.EventHandler(this.toolsTrackThree_rb_CheckedChanged);
             // 
             // gameEntities_lb
             // 
@@ -460,6 +517,9 @@
         private System.Windows.Forms.TextBox editPropName_txt;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
+        private System.Windows.Forms.RadioButton toolsTrackOne_rb;
+        private System.Windows.Forms.RadioButton toolsTrackTwo_rb;
+        private System.Windows.Forms.RadioButton toolsTrackThree_rb;
     }
 }
 

@@ -1,0 +1,125 @@
+<Entities>
+  <GameEntity Type="3" TypeStr="SPRITE" ID="1">
+    <Dimensions TypeStr="System.Drawing.Rectangle">0 0 256 256</Dimensions>
+    <Image TypeStr="">Assets/bg_blue.png</Image>
+	<Scale>1 1</Scale>
+  </GameEntity>
+  <GameEntity Type="3" TypeStr="SPRITE" ID="1">
+    <Dimensions TypeStr="System.Drawing.Rectangle">256 0 256 256</Dimensions>
+    <Image TypeStr="">Assets/bg_blue.png</Image>
+	<Scale>1 1</Scale>
+  </GameEntity>
+  <GameEntity Type="3" TypeStr="SPRITE" ID="1">
+    <Dimensions TypeStr="System.Drawing.Rectangle">512 0 256 256</Dimensions>
+    <Image TypeStr="">Assets/bg_blue.png</Image>
+	<Scale>1 1</Scale>
+  </GameEntity>
+  <GameEntity Type="3" TypeStr="SPRITE" ID="1">
+    <Dimensions TypeStr="System.Drawing.Rectangle">768 0 256 256</Dimensions>
+    <Image TypeStr="">Assets/bg_blue.png</Image>
+	<Scale>1 1</Scale>
+  </GameEntity>
+  <GameEntity Type="3" TypeStr="SPRITE" ID="1">
+    <Dimensions TypeStr="System.Drawing.Rectangle">0 256 256 256</Dimensions>
+    <Image TypeStr="">Assets/bg_blue.png</Image>
+	<Scale>1 1</Scale>
+  </GameEntity>
+  <GameEntity Type="3" TypeStr="SPRITE" ID="1">
+    <Dimensions TypeStr="System.Drawing.Rectangle">256 256 256 256</Dimensions>
+    <Image TypeStr="">Assets/bg_blue.png</Image>
+	<Scale>1 1</Scale>
+  </GameEntity>
+  <GameEntity Type="3" TypeStr="SPRITE" ID="1">
+    <Dimensions TypeStr="System.Drawing.Rectangle">512 256 256 256</Dimensions>
+    <Image TypeStr="">Assets/bg_blue.png</Image>
+	<Scale>1 1</Scale>
+  </GameEntity>
+  <GameEntity Type="3" TypeStr="SPRITE" ID="1">
+    <Dimensions TypeStr="System.Drawing.Rectangle">768 256 256 256</Dimensions>
+    <Image TypeStr="">Assets/bg_blue.png</Image>
+	<Scale>1 1</Scale>
+  </GameEntity>
+  <GameEntity Type="3" TypeStr="SPRITE" ID="3">
+    <Dimensions TypeStr="System.Drawing.Rectangle">50 145 134 82</Dimensions>
+    <Image TypeStr="">Assets/cloud1.png</Image>
+	<Scale>1 1</Scale>
+  </GameEntity>
+  <GameEntity Type="3" TypeStr="SPRITE" ID="3">
+    <Dimensions TypeStr="System.Drawing.Rectangle">225 100 141 84</Dimensions>
+    <Image TypeStr="">Assets/cloud2.png</Image>
+	<Scale>1 1</Scale>
+  </GameEntity>
+  <GameEntity Type="3" TypeStr="SPRITE" ID="3">
+    <Dimensions TypeStr="System.Drawing.Rectangle">425 125 134 82</Dimensions>
+    <Image TypeStr="">Assets/cloud1.png</Image>
+	<Scale>1 1</Scale>
+  </GameEntity>
+  <GameEntity Type="3" TypeStr="SPRITE" ID="3">
+    <Dimensions TypeStr="System.Drawing.Rectangle">620 100 141 84</Dimensions>
+    <Image TypeStr="">Assets/cloud2.png</Image>
+	<Scale>1 1</Scale>
+  </GameEntity>
+  <GameEntity Type="5" TypeStr="WAVE_TRACK" ID="2">
+    <Dimensions TypeStr="System.Drawing.Rectangle">-10 275 1000 100</Dimensions>
+	<Oscillation TypeStr="float">1</Oscillation>
+	<Speed TypeStr="float">2</Speed>
+    <Image TypeStr="">Assets/grass2.png</Image>
+	<Scale>1 1</Scale>
+  </GameEntity>
+  
+  <GameEntity Type="6" TypeStr="CONVEYOR_TRACK" ID="2">
+    <Dimensions TypeStr="System.Drawing.Rectangle">-50 340 850 100</Dimensions>
+	<Speed TypeStr="float">60</Speed>
+    <Image TypeStr="">Assets/water2.png</Image>
+	<Scale>0.4 0.4</Scale>
+  </GameEntity>
+  
+  <GameEntity Type="5" TypeStr="WAVE_TRACK" ID="3">
+    <Dimensions TypeStr="System.Drawing.Rectangle">-10 375 1000 100</Dimensions>
+	<Oscillation TypeStr="float">1</Oscillation>
+	<Speed TypeStr="float">3</Speed>
+    <Image TypeStr="">Assets/grass2.png</Image>
+	<Scale>0.5 0.5</Scale>
+  </GameEntity>
+  <GameEntity Type="3" TypeStr="SPRITE" ID="3">
+    <Dimensions TypeStr="System.Drawing.Rectangle">0 450 800 150</Dimensions>
+    <Image TypeStr="">Assets/counter.png</Image>
+	<Scale>1 1</Scale>
+  </GameEntity>
+  <GameEntity Type="4" TypeStr="CURTAIN" ID="3">
+    <Dimensions TypeStr="System.Drawing.Rectangle">0 0 800 600</Dimensions>
+    <BottomImage TypeStr="">Assets\curtain_bottom.png</BottomImage>
+	<MainImage TypeStr="">Assets\curtain_main.png</MainImage>
+	<Orientation>1 1</Orientation>
+  </GameEntity>
+  <GameEntity Type="3" TypeStr="SPRITE" ID="3">
+    <Dimensions TypeStr="System.Drawing.Rectangle">0 -10 200 63</Dimensions>
+    <Image TypeStr="">Assets/curtain_top.png</Image>
+	<Scale>1 1</Scale>
+  </GameEntity>
+  <GameEntity Type="3" TypeStr="SPRITE" ID="3">
+    <Dimensions TypeStr="System.Drawing.Rectangle">200 -10 200 63</Dimensions>
+    <Image TypeStr="">Assets/curtain_top.png</Image>
+	<Scale>1 1</Scale>
+  </GameEntity>
+  <GameEntity Type="3" TypeStr="SPRITE" ID="3">
+    <Dimensions TypeStr="System.Drawing.Rectangle">400 -10 200 63</Dimensions>
+    <Image TypeStr="">Assets/curtain_top.png</Image>
+	<Scale>1 1</Scale>
+  </GameEntity>
+  <GameEntity Type="3" TypeStr="SPRITE" ID="3">
+    <Dimensions TypeStr="System.Drawing.Rectangle">600 -10 200 63</Dimensions>
+    <Image TypeStr="">Assets/curtain_top.png</Image>
+	<Scale>1 1</Scale>
+  </GameEntity>
+  <GameEntity Type="3" TypeStr="SPRITE" ID="3">
+    <Dimensions TypeStr="System.Drawing.Rectangle">-10 -10 131 600</Dimensions>
+    <Image TypeStr="">Assets/curtain_side.png</Image>
+	<Scale>1 1</Scale>
+  </GameEntity>
+  <GameEntity Type="3" TypeStr="SPRITE" ID="3">
+    <Dimensions TypeStr="System.Drawing.Rectangle">810 -10 131 600</Dimensions>
+    <Image TypeStr="">Assets/curtain_side.png</Image>
+	<Scale>-1 1</Scale>
+  </GameEntity>
+</Entities>

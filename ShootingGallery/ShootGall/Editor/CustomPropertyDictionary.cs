@@ -154,7 +154,7 @@ namespace Editor
                 else if (cp.Type == typeof(Point))
                 {
                     Point p = (Point)value;
-                    el.InnerText = p.X + " " + p.Y + " " + 0 + " " + 0;
+                    el.InnerText = p.X + " " + p.Y;
                 }
                 else
                 {

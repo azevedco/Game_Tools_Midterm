@@ -16,15 +16,16 @@ namespace Editor
 #if CS
     public
 #endif
-    enum EntityType
+ enum EntityType
     {
         NONE = 0,
         RECT = 1,
         CIRCLE = 2,
         SPRITE = 3,
-        WAVE_TRACK = 4,
-        CONVERYOR_TRACK = 5,
-        FUNCTION_TRACK = 6,
+        CURTAIN = 4,
+        WAVE_TRACK = 5,
+        CONVERYOR_TRACK = 6,
+        FUNCTION_TRACK = 7,
         COUNT
     };
 #if CS
@@ -58,24 +59,29 @@ namespace Editor
         new String[]
 #endif
             /* Sprite */
-            {"Dimensions", "Image"},
+            {"Dimensions", "Image", "Scale"},
+#if CS
+        new String[]
+#endif
+            /* Curtain */
+            {"Dimensions", "BottomImage", "MainImage"},
 #if CS
         new String[]
 #endif
             /* Track 1: Wave Track */
-            {"Dimensions", "Oscillation", "Speed", "Image"},
+            {"Dimensions", "Oscillation", "Speed", "Image", "Scale"},
 #if CS
         new String[]
 #endif
             /* Track 2: Conveyor Track */
-            {"Dimensions", "Speed", "Sprites"},
+            {"Dimensions", "Speed", "Image", "Scale"},
 #if CS
         new String[]
 #endif
             /* Track 3: Function Track */
-            {"Dimensions", "Oscillation", "Function", "Sprites"}
+            {"Dimensions", "Oscillation", "Speed", "Function", "Image", "Scale"}
         };
 #if CS
-}
+    }
 #endif
 }
